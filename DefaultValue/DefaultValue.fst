@@ -1,0 +1,9 @@
+module DefaultValue
+
+open FStar.Tactics.Typeclasses
+
+class hasDefaultValue a = {
+  def: a
+}
+
+instance intHasDefaultValue : hasDefaultValue int = {def = 0}
