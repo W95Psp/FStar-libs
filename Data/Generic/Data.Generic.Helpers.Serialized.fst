@@ -18,16 +18,26 @@ unfold let readBool (x: serialized): bool * serialized
   = let ns,(is, (ss, b::tlB)) = admit (); x in
     b, (ns, (is, (ss, tlB)))
 
-unfold let appendName   (n: T.name)   x = let names,                    ((r)) = x in n::names, r
-unfold let appendInt    (i: int)      x = let names, (ints,              (r)) = x in names, (i::ints, r)
-unfold let appendString (s: string) x = let names, (ints, (strings, bools)) = x in names, (ints, (s::strings, bools))
-unfold let appendBool   (b: bool)   x = let names, (ints, (strings, bools)) = x in names, (ints, (strings, b::bools))
+unfold let appendName   (n: T.name) x: serialized = let names,                    ((r)) = x in n::names, r
+unfold let appendInt    (i: int)      x: serialized = let names, (ints,              (r)) = x in names, (i::ints, r)
+unfold let appendString (s: string) x: serialized = let names, (ints, (strings, bools)) = x in names, (ints, (s::strings, bools))
+unfold let appendBool   (b: bool)   x: serialized = let names, (ints, (strings, bools)) = x in names, (ints, (strings, b::bools))
+
+
+let appendList #t
+  (appender: t -> serialized -> serialized)
+  (v: list t) (s: serialized)
+  : serialized
+  = let s = appendInt (L.length v) s in
+    L.fold_left
+      (fun s v -> appender v s)
+      s v 
 
 unfold let compose (f: serialized -> serialized) (g: serialized -> serialized) 
   : serialized -> serialized
   = fun x -> f (g x)
 
-
+let emptySerialized: serialized = ([], ([], ([], [])))
 
 let readList #t
   (f: serialized -> t * serialized)

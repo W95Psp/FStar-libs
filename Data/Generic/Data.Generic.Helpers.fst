@@ -126,14 +126,14 @@ unfold let admitMe n =
 unfold let admitTerm t = call1 (`admitMe) t
 
 
-
-let withIndex (l: list 'a): list (int * 'a)
-  = let rec h l n =
+let rec withIndex_helper (l: list 'a) (n: int): (r: list (int * 'a)) =
     match l with
     | [] -> []
-    | hd::tl -> (n, hd)::(h tl (n+1))
-  in h l 0
+    | hd::tl -> (n, hd)::( withIndex_helper tl (n+1))
 
+let withIndex (l: list 'a): (r: list (int * 'a))
+  =  withIndex_helper l 0
+    
 let mkMatchInt (n: term) (bodies: list term)
   : Tac term
   = pack
