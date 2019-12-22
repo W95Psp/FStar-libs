@@ -1,10 +1,1 @@
-(import <nixpkgs> {}).fstar-package-manager
-  { name = "ToString";
-    sources-directory = ./.;
-    sources = [
-      "ToString"
-    ];
-    ocaml-sources = [];
-    dependencies = [];
-    compile = [];
-  }
+((import <nixpkgs> {}).fstar-package-manager (import ./fstar-package.nix)).build

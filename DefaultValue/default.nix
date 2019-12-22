@@ -1,10 +1,1 @@
-(import <nixpkgs> {}).fstar-package-manager
-  { name = "DefaultValue";
-    sources-directory = ./.;
-    sources = [
-      "DefaultValue"
-    ];
-    ocaml-sources = [];
-    dependencies = [];
-    compile = [];
-  }
+((import <nixpkgs> {}).fstar-package-manager (import ./fstar-package.nix)).build

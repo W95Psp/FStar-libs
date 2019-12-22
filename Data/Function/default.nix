@@ -1,10 +1,1 @@
-(import <nixpkgs> {}).fstar-package-manager
-  { name = "Data.Function";
-    sources-directory = ./.;
-    sources = [
-      "Data.Function"
-    ];
-    ocaml-sources = [];
-    dependencies = [];
-    compile = [];
-  }
+((import <nixpkgs> {}).fstar-package-manager (import ./fstar-package.nix)).build

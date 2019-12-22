@@ -27,6 +27,12 @@ instance stringHasToString : hasToString string = {toString = fun x -> x}
 instance charHasToString   : hasToString char = {toString = fun ch -> String.make 1 ch}
 instance natHasToString    : hasToString nat = {toString = fun ch -> string_of_int (nat_to_int ch)}
 instance intHasToString    : hasToString int = {toString = string_of_int}
+instance eitherHasToString #a #b [| hasToString a |] [| hasToString b |]
+  : hasToString (either a b)
+  = {toString = fun v -> match v with
+              | Inl v -> "Inl ("^toString v^")"
+              | Inr v -> "Inr ("^toString v^")"
+  }
 instance boolHasToString   : hasToString bool = {toString = fun v -> if v then "true" else "false"}
 
 instance anyListHasToString #a [| hasToString a |] : hasToString (list a) = {toString = fun x -> "[" ^ join ", " (map toString x) ^ "]"}

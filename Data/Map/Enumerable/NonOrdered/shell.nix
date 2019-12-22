@@ -1,6 +1,1 @@
-with import <nixpkgs> {};
-let parent = import ./.; in
-stdenv.mkDerivation {
-  name = parent.name + "env";
-  buildInputs = parent.buildInputs;
-}
+((import <nixpkgs> {}).fstar-package-manager (import ./fstar-package.nix)).shell

@@ -1,13 +1,1 @@
-(import <nixpkgs> {}).fstar-package-manager
-  { name = "Data.Set.Computable.NonOrdered";
-    sources-directory = ./.;
-    sources = [
-      "Data.Set.Computable.NonOrdered"
-      "Data.Set.Computable.NonOrdered.PartialOrder"
-    ];
-    ocaml-sources = [];
-    dependencies =
-      with (import ../../../..);
-      [PartialOrder];
-    compile = [];
-  }
+((import <nixpkgs> {}).fstar-package-manager (import ./fstar-package.nix)).build
