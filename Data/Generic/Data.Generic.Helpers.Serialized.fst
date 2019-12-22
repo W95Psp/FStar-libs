@@ -28,10 +28,12 @@ let appendList #t
   (appender: t -> serialized -> serialized)
   (v: list t) (s: serialized)
   : serialized
-  = let s = appendInt (L.length v) s in
-    L.fold_left
-      (fun s v -> appender v s)
-      s v 
+  = let s
+      = L.fold_left
+        (fun s v -> appender v s)
+        s v
+    in appendInt (L.length v) s
+     
 
 unfold let compose (f: serialized -> serialized) (g: serialized -> serialized) 
   : serialized -> serialized
@@ -44,6 +46,7 @@ let readList #t
   (s: serialized)
   : list t * serialized
   = let len, s = readInt s in
+    mkerror ("readList " ^ string_of_int len);
     L.fold_left
       (fun (l, s) _ -> 
         let x, s = f s

@@ -43,3 +43,19 @@ let mkMatchInt_test2: int -> int =
 
 
 
+type mkMatchInductive_test_typ =
+  | MkMatchInductive_testA : int      -> mkMatchInductive_test_typ
+  | MkMatchInductive_testB : string -> mkMatchInductive_test_typ
+
+open Data.Generic.Rep
+let mkMatchInductive_test: int = _ by (
+  let s = makeGenericRep (fvOf (`mkMatchInductive_test_typ)) in
+  let t = mkMatchInductive s (`(MkMatchInductive_testA 4)) [
+    (fun l -> let [a] = admit (); l in 
+      bv_to_term a
+    );
+    (fun _ -> `66)
+  ] in
+  exact (t)
+)
+

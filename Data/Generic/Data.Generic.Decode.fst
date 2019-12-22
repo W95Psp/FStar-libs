@@ -8,6 +8,8 @@ open Data.Generic.Helpers.Serialized
 open Data.Generic.Types
 open Data.Generic.Rep
 
+let transform_name_decode' (n: name): Tac name
+  = nameCurMod' n (fun x -> x ^ "_generic_decode_chainable")
 let transform_name_decode (n: name): Tac name
   = nameCurMod' n (fun x -> x ^ "_generic_decode")
 
@@ -23,7 +25,7 @@ let rec generateDecodeGeneric_term_for_argSumup
                 (generateDecodeGeneric_term_for_argSumup args_fun typ)
   | AS_TVar i -> (binder_to_term (L.index args_fun i))
   | AS_Inductive tname args ->
-    let f = name_to_term (transform_name_decode tname) in
+    let f = name_to_term (transform_name_decode' tname) in
     mk_e_app f (map (generateDecodeGeneric_term_for_argSumup args_fun) args)
 
 let id_tac_term (t: term): Tac term =
@@ -59,20 +61,23 @@ let generateDecodeGeneric_term_for_consSumup #n (encoders: list _ {L.length enco
       call2 (`Mktuple2) branch (bv_to_term bv_serialized)
     )
 
-
-
 let generateDecodeGeneric_term_for_inductiveSumup
-    (s: inductiveSumup) (typs: (x: list (binder * binder) {L.length x == s.iVars}))
+    (s: inductiveSumup)
   : Tac term
   = let {iVars; iName; iCons} = s in
+    let decoders: (x: list binder {L.length x == s.iVars})
+      = admit ();
+        map (fun _ -> pack_binder (fresh_bv (`_)) Q_Explicit
+        ) (mkList 0 (s.iVars-1))
+    in
     let inp = fresh_binder (`serialized) in
-    mk_abs ((*L.map fst typs @*) L.map snd typs @ [inp]) (
+    mk_abs (decoders @ [inp]) (
       mkLet_tup
         (call1 (`readInt) inp)
         (fun consIndex inp -> 
           let branches
             = map (fun cons ->
-                generateDecodeGeneric_term_for_consSumup #s.iVars (L.map snd typs) cons inp
+                generateDecodeGeneric_term_for_consSumup #s.iVars decoders cons inp
               ) iCons
           in 
           mkMatchInt (bv_to_term consIndex) branches
@@ -82,27 +87,23 @@ let generateDecodeGeneric_term_for_inductiveSumup
 let generateDecodeGeneric_for_inductiveSumup
     (s: inductiveSumup)
   : Tac decls
-  = let typs: (x: list (binder * binder) {L.length x == s.iVars})
+  = let decoders: (x: list binder {L.length x == s.iVars})
       = admit ();
-        map (fun n -> 
-          let typvar = fresh_bv (`Type) in
-          pack_binder typvar Q_Explicit
-          , pack_binder (fresh_bv (`_)) Q_Explicit
-          // pack_binder (fresh_bv (
-          //   call1 (`(fun t -> (t -> t * serialized))) (bv_to_term typvar)
-          // )) Q_Explicit
+        map (fun _ -> pack_binder (fresh_bv (`_)) Q_Explicit
         ) (mkList 0 (s.iVars-1))
-    in let typ = (`_)
-     // = mk_tot_arr 
-     //   (L.map fst typs @ L.map snd typs @ [pack_binder (fresh_bv (`serialized)) Q_Explicit])
-     //   (let tt = mk_app (name_to_term s.iName) (map (fun x -> binder_to_term x, Q_Explicit) (L.map fst typs)) in
-     //    // let tt' = unquote tt in
-     //    normalize_term (call1 (`(fun t -> t * serialized)) tt)
-     //   )
+    in
+    let inp = fresh_binder (`serialized) in
+    // decoders @ [inp]
+    let body = generateDecodeGeneric_term_for_inductiveSumup s in
+    let sg'
+    = Sg_Let false (pack_fv (transform_name_decode' s.iName)) [] (`_)
+             body
     in let sg
-    = Sg_Let false (pack_fv (transform_name_decode s.iName)) [] typ
-             (generateDecodeGeneric_term_for_inductiveSumup s typs)
-    in dump (term_to_string (quote sg)); [pack_sigelt sg]
+    = Sg_Let false (pack_fv (transform_name_decode s.iName)) [] (`_)
+             (mk_abs (decoders @ [inp]) (
+               call1 (`fst) (mk_e_app body (map binder_to_term (decoders @ [inp])))
+             ))
+    in [pack_sigelt sg; pack_sigelt sg']
 
 let generateDecodeGeneric
     (name: fv)

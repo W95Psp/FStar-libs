@@ -3,6 +3,8 @@ module Data.Generic.Helpers
 open FStar.Tactics
 module L = FStar.List.Tot
 
+assume val mkerror : (#t: Type) -> string -> t
+
 let mkTupleType a b = a * b
 
 unfold let mkTupleTypeTac (a b: typ): Tac typ
@@ -141,6 +143,32 @@ let mkMatchInt (n: term) (bodies: list term)
       ( L.map
         (fun (i, body) -> Pat_Constant (C_Int i), body)
         (withIndex bodies)
-        @ [Pat_Wild (fresh_bv (`int)), (`magic ())]
+        @ [Pat_Wild (
+            fresh_bv (`int))
+          , `mkerror "mkMatchInt"
+          // , call2 (`(fun m i -> mkerror ("mkMatchInt " ^ m ^ " with " ^ string_of_int i)))
+          //         (Tv_Const (C_String errMessage)) n       
+          ]
       )
     )
+
+module DGT = Data.Generic.Types
+let mkMatchInductive (s: DGT.inductiveSumup) (head: term) (bodies: list (list bv -> Tac term))
+  : Tac term
+  = pack
+    ( Tv_Match head
+      ( let bodies' = withIndex (zip s.DGT.iCons bodies) in
+        map #(_ * (_ * (_ -> Tac term)))
+        (fun (i, ((name, args), (body: _ -> Tac term))) ->
+          let vars = map (fun _ -> fresh_bv (`_)) args in
+          let pat = Pat_Cons (pack_fv name)
+            (L.map (fun x -> Pat_Wild x, false) vars)
+          , body vars
+          in dump (term_to_string (quote pat)); pat
+        )
+        bodies'
+      )
+    )
+
+
+
