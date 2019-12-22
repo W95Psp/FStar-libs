@@ -1,4 +1,4 @@
-module Data.Generic.Types
+module Data.Generics.Types
 
 module T = FStar.Tactics
 

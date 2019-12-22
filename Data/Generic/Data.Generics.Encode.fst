@@ -1,13 +1,13 @@
-module Data.Generic.Encode
+module Data.Generics.Encode
 
 open FStar.Tactics
 module L = FStar.List.Tot
 module LP = FStar.List.Pure
 
-open Data.Generic.Helpers
-open Data.Generic.Helpers.Serialized
-open Data.Generic.Types
-open Data.Generic.Rep
+open Data.Generics.Helpers
+open Data.Generics.Helpers.Serialized
+open Data.Generics.Types
+open Data.Generics.Rep
 
 
 let transform_name_encode' (n: name): Tac name

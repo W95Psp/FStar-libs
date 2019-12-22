@@ -1,8 +1,8 @@
-module Data.Generic.Rep
+module Data.Generics.Rep
 
-open Data.Generic.Helpers
-open Data.Generic.Helpers.Serialized
-open Data.Generic.Types
+open Data.Generics.Helpers
+open Data.Generics.Helpers.Serialized
+open Data.Generics.Types
 
 open FStar.Tactics
 module L = FStar.List.Tot

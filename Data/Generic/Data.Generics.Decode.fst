@@ -1,12 +1,12 @@
-module Data.Generic.Decode
+module Data.Generics.Decode
 
 open FStar.Tactics
 module L = FStar.List.Tot
 
-open Data.Generic.Helpers
-open Data.Generic.Helpers.Serialized
-open Data.Generic.Types
-open Data.Generic.Rep
+open Data.Generics.Helpers
+open Data.Generics.Helpers.Serialized
+open Data.Generics.Types
+open Data.Generics.Rep
 
 let transform_name_decode' (n: name): Tac name
   = nameCurMod' n (fun x -> x ^ "_generic_decode_chainable")
@@ -102,6 +102,4 @@ let generateDecodeGeneric
   : Tac decls
   = let s = makeGenericRep name in
     generateDecodeGeneric_for_inductiveSumup s
-
-
 

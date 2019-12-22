@@ -1,4 +1,4 @@
-module Data.Generic.Helpers
+module Data.Generics.Helpers
 
 open FStar.Tactics
 module L = FStar.List.Tot
@@ -151,7 +151,7 @@ let mkMatchInt (n: term) (bodies: list term)
       )
     )
 
-module DGT = Data.Generic.Types
+module DGT = Data.Generics.Types
 let mkMatchInductive (s: DGT.inductiveSumup) (head: term) (bodies: list (list bv -> Tac term))
   : Tac term
   = pack

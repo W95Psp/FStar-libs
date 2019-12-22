@@ -1,6 +1,6 @@
-module Data.Generic.Helpers.Test
+module Data.Generics.Helpers.Test
 
-open Data.Generic.Helpers
+open Data.Generics.Helpers
 
 open FStar.Tactics
 
@@ -47,7 +47,7 @@ type mkMatchInductive_test_typ =
   | MkMatchInductive_testA : int      -> mkMatchInductive_test_typ
   | MkMatchInductive_testB : string -> mkMatchInductive_test_typ
 
-open Data.Generic.Rep
+open Data.Generics.Rep
 let mkMatchInductive_test: int = _ by (
   let s = makeGenericRep (fvOf (`mkMatchInductive_test_typ)) in
   let t = mkMatchInductive s (`(MkMatchInductive_testA 4)) [
