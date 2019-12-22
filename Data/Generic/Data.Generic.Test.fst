@@ -11,14 +11,18 @@ module L = FStar.List.Tot
 type myTest a = | A : a -> myTest a
                 | B : int -> myTest a
                 | C : list a -> myTest a
-%splice[myTest_generic_decode] (generateDecodeGeneric (fvOf (`myTest)))
-%splice[myTest_generic_encode; myTest_generic_encode_chainable] (generateEncodeGeneric (fvOf (`myTest)))
+%splice[myTest_generic_decode; myTest_generic_decode_chainable]
+  (generateDecodeGeneric (fvOf (`myTest)))
+%splice[myTest_generic_encode; myTest_generic_encode_chainable]
+  (generateEncodeGeneric (fvOf (`myTest)))
 
 type myTest' a = | A' : a -> myTest' a
                  | B' : int -> myTest' a
                  | C' : list a -> myTest' a
-%splice[myTest'_generic_decode] (generateDecodeGeneric (fvOf (`myTest')))
-%splice[myTest'_generic_encode; myTest'_generic_encode_chainable] (generateEncodeGeneric (fvOf (`myTest')))
+%splice[myTest'_generic_decode; myTest'_generic_decode_chainable]
+  (generateDecodeGeneric (fvOf (`myTest')))
+%splice[myTest'_generic_encode; myTest'_generic_encode_chainable]
+  (generateEncodeGeneric (fvOf (`myTest')))
 
 let test: serialized = ( 
    []

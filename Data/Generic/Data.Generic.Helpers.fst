@@ -51,8 +51,7 @@ let binderToArgv b =
   bv_to_term bv, q
 
 let norm_term' t
-  = //dump ("XXXXX -> " ^ term_to_string t);
-    norm_term [zeta] t
+  = norm_term [zeta] t
 
 let fvOf (t: term) = match inspect t with
   | Tv_FVar fv -> fv
@@ -61,14 +60,15 @@ let fvOf (t: term) = match inspect t with
 let nameCurMod' (n: name) (f: string -> string) =
   cur_module () @ [f (last n)]
 
+let rec findIndex' (x: bv) (n: nat) l: Tac nat =
+  match l with
+  | [] -> fail "findIndex failed"
+  | hd::tl -> if compare_bv x hd = FStar.Order.Eq 
+            then n
+            else findIndex' x (n+1) tl
+
 let findIndex (x: bv) l: Tac nat =
-  let rec h (n: nat) l: Tac nat
-    = match l with
-    | [] -> fail "findIndex failed"
-    | hd::tl -> if compare_bv x hd = FStar.Order.Eq 
-              then n
-              else h (n+1) tl
-  in h 0 l
+  findIndex' x 0 l
 
 let name_to_term (n: name): Tac term
   = pack (Tv_FVar (pack_fv n))
@@ -77,7 +77,6 @@ let bvName n = pack_bv ({bv_ppname = "v" ^ n; bv_index = 0; bv_sort = (`(_))})
 let binderName n = pack_binder (bvName n) Q_Explicit
 let bvNth n = pack_bv ({bv_ppname = "typvar" ^ string_of_int n; bv_index = 0; bv_sort = (`(_))})
 let binderNth n = pack_binder (bvNth n) Q_Explicit
-
 
 let rec mkList (min: int) (max: int)
   : Tot (list int)
@@ -161,10 +160,9 @@ let mkMatchInductive (s: DGT.inductiveSumup) (head: term) (bodies: list (list bv
         map #(_ * (_ * (_ -> Tac term)))
         (fun (i, ((name, args), (body: _ -> Tac term))) ->
           let vars = map (fun _ -> fresh_bv (`_)) args in
-          let pat = Pat_Cons (pack_fv name)
-            (L.map (fun x -> Pat_Wild x, false) vars)
+            Pat_Cons (pack_fv name)
+              (L.map (fun x -> Pat_Wild x, false) vars)
           , body vars
-          in dump (term_to_string (quote pat)); pat
         )
         bodies'
       )

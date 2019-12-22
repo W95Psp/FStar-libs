@@ -52,7 +52,6 @@ let generateEncodeGeneric_term_for_inductiveSumup
                        s
                    )
                    (binder_to_term initialSerialized)
-                   // (`emptySerialized)
                    (withIndex cArgs)
                )
            in f
@@ -84,7 +83,6 @@ let generateEncodeGeneric
     (name: fv)
   : Tac decls
   = let s = makeGenericRep name in
-    dump (term_to_string (quote s));
     generateEncodeGeneric_for_inductiveSumup s
 
 
