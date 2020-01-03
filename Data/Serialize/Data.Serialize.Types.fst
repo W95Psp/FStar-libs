@@ -22,6 +22,8 @@ let serialized = (
 *  list bool
 )))
 
+let tserialized a = serialized
+
 open FStar.List.Tot
 let serialize_size: serialized -> nat = fun (a, (b, (c, d))) -> length a + length b + length c + length d
 
