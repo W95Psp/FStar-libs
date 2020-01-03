@@ -49,16 +49,17 @@ instance emHasToString #a [| hasToString a |] : hasToString (enumerableMap a) = 
 }
 
 
-let rec listToEnumerableSet (#a:Type) [| hasDefaultValue a |] (lst:list (tuple2 string a))
-  = let rec resolver (l:list (tuple2 string a)) (query: string): Tot a (decreases (length l)) = (match l with
-                  | [] -> def
-                  | (name, value)::tl -> if name = query then value else resolver tl query
-  ) in {
-  _em_data = resolver lst;
-  _em_keys = CSet.list_to_set (map (fun (k, _) -> k) lst)
-  }
+let rec listToEnumerableSet_resolver #a [| hasDefaultValue a |] (l:list (tuple2 string a)) (query: string)
+  : Tot a (decreases (length l))
+  = ( match l with
+    | [] -> def
+    | (name, value)::tl -> if name = query then value else listToEnumerableSet_resolver tl query
+    )
 
-
+let listToEnumerableSet (#a:Type) [| hasDefaultValue a |] (lst:list (tuple2 string a))
+  = { _em_data = listToEnumerableSet_resolver lst
+    ; _em_keys = CSet.list_to_set (map (fun (k, _) -> k) lst)
+    }
 
 type enumerableMap'S a = list (string * a)
 let enumerableMap'S'enc #a m: enumerableMap'S a = 

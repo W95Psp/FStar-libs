@@ -62,7 +62,6 @@ let makeHasSerializeInstance
     in
     let se = pack_sigelt se in
     let se = set_sigelt_attrs [quote tcinstance] se in
-    dump (term_to_string (quote se));
     [se]
 
 open Data.Serialize.Rep
@@ -78,13 +77,12 @@ let generateSerialize' tfv
 let generateSerialize (t: term)
   = generateSerialize' (fvOf t)
 
+let serialize #a [| hasSerialize a |] (v: a): serialized = serialize_chainable v ([], ([], ([], [])))
+let deserialize #a [| hasSerialize a |] (v: serialized): a = fst (deserialize_chainable v)
+
 // type myTest a = | A : a -> myTest a
 //                 | B : int -> myTest a
 //                 | C : list a -> myTest a
 //                 | D : a -> a -> myTest a
 
 // %splice[myTest_hasSerialize] (generateSerialize (`myTest))
-
-let serialize #a [| hasSerialize a |] (v: a): serialized = serialize_chainable v ([], ([], ([], [])))
-let deserialize #a [| hasSerialize a |] (v: serialized): a = fst (deserialize_chainable v)
-

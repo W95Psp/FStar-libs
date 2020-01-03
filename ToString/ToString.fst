@@ -37,4 +37,11 @@ instance boolHasToString   : hasToString bool = {toString = fun v -> if v then "
 
 instance anyListHasToString #a [| hasToString a |] : hasToString (list a) = {toString = fun x -> "[" ^ join ", " (map toString x) ^ "]"}
 
+instance optionHasToString #a [| hasToString a |] : hasToString (option a) = {toString = (fun x -> 
+  match x with
+  | Some x -> "Some (" ^ toString x ^ ")"
+  | None   -> "None"
+)}
+
 let (^-) #t0 #t1 [| hasToString t0 |] [| hasToString t1 |] (s0: t0) (s1: t1) = toString s0 ^ toString s1
+
