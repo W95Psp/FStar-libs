@@ -24,44 +24,44 @@ module Rep = Data.Serialize.Rep
 
 let fvOf = Helpers.fvOf
 
-let name_serialize_decode = HS.readName
-let name_serialize_encode = HS.appendName
+let name_serialize_decode_chainable = HS.readName
+let name_serialize_encode_chainable = HS.appendName
 [@tcinstance]
 let nameHasSerialize: TC.hasSerialize name = {
-   TC.serialize_chainable   = name_serialize_encode
- ; TC.deserialize_chainable = name_serialize_decode
+   TC.serialize_chainable   = name_serialize_encode_chainable
+ ; TC.deserialize_chainable = name_serialize_decode_chainable
 }
 
-let int_serialize_decode = HS.readInt
-let int_serialize_encode = HS.appendInt
+let int_serialize_decode_chainable = HS.readInt
+let int_serialize_encode_chainable = HS.appendInt
 [@tcinstance]
 let intHasSerialize: TC.hasSerialize int = {
-   TC.serialize_chainable   = int_serialize_encode
- ; TC.deserialize_chainable = int_serialize_decode
+   TC.serialize_chainable   = int_serialize_encode_chainable
+ ; TC.deserialize_chainable = int_serialize_decode_chainable
 }
 
-let string_serialize_decode = HS.readString
-let string_serialize_encode = HS.appendString
+let string_serialize_decode_chainable = HS.readString
+let string_serialize_encode_chainable = HS.appendString
 [@tcinstance]
 let stringHasSerialize: TC.hasSerialize string = {
-   TC.serialize_chainable   = string_serialize_encode
- ; TC.deserialize_chainable = string_serialize_decode
+   TC.serialize_chainable   = string_serialize_encode_chainable
+ ; TC.deserialize_chainable = string_serialize_decode_chainable
 }
 
-let bool_serialize_decode = HS.readBool
-let bool_serialize_encode = HS.appendBool
+let bool_serialize_decode_chainable = HS.readBool
+let bool_serialize_encode_chainable = HS.appendBool
 [@tcinstance]
 let boolHasSerialize: TC.hasSerialize bool = {
-   TC.serialize_chainable   = bool_serialize_encode
- ; TC.deserialize_chainable = bool_serialize_decode
+   TC.serialize_chainable   = bool_serialize_encode_chainable
+ ; TC.deserialize_chainable = bool_serialize_decode_chainable
 }
 
-let list_serialize_decode = HS.readList
-let list_serialize_encode = HS.appendList
+let list_serialize_decode_chainable = HS.readList
+let list_serialize_encode_chainable = HS.appendList
 [@tcinstance]
 let listHasSerialize a [| TC.hasSerialize a |]: TC.hasSerialize (list a) = {
-   TC.serialize_chainable   = list_serialize_encode TC.serialize_chainable
- ; TC.deserialize_chainable = list_serialize_decode TC.deserialize_chainable
+   TC.serialize_chainable   = list_serialize_encode_chainable TC.serialize_chainable
+ ; TC.deserialize_chainable = list_serialize_decode_chainable TC.deserialize_chainable
 }
 
 let generateSerialize' = TC.generateSerialize'
@@ -69,12 +69,17 @@ let generateSerialize = TC.generateSerialize
 
 %splice[] (generateSerialize (`option))
 %splice[] (generateSerialize (`either))
+%splice[] (generateSerialize (`tuple2))
+%splice[] (generateSerialize (`tuple3))
+%splice[] (generateSerialize (`tuple4))
+%splice[] (generateSerialize (`tuple5))
+%splice[] (generateSerialize (`tuple6))
 
-let nat_serialize_decode s: (nat * _)
-  = match int_serialize_decode s with
+let nat_serialize_decode_chainable s: (nat * _)
+  = match int_serialize_decode_chainable s with
   | i, s -> if i >= 0 then i, s
            else Helpers.mkerror "nat_serialize_decode: got an negative integer"
-let nat_serialize_encode: nat -> _ -> _ = int_serialize_encode
+let nat_serialize_encode_chainable: nat -> _ -> _ = int_serialize_encode_chainable
 
 let hasSerialize = TC.hasSerialize 
 let serialize   #a [| hasSerialize a |] v = TC.serialize   #a v

@@ -39,8 +39,6 @@ let decls_: decls =
   (generateEncodeSerialize (fvOf (`option))
 )
 
-// let _ = assert (decls_ == magic ()) by (unfold_def (`decls_); fail "x")
-
 %splice[myTest'_serialize_decode; myTest'_serialize_decode_chainable]
   (generateDecodeSerialize (fvOf (`myTest')))
 %splice[myTest'_serialize_encode; myTest'_serialize_encode_chainable]

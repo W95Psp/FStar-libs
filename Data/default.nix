@@ -3,4 +3,5 @@
   Map = import ./Map;
   Function = import ./Function;
   Serialize = import ./Serialize;
+  JSON = import ./JSON;
 }
