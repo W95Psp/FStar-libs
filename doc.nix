@@ -52,6 +52,7 @@ let p = import ./.;
 ''
 <details><summary><code>${x}</code></summary>
 <p>
+
 ```fstar
 ${
   let l = pkgs.lib.splitString "\\n" (doc-db."${x}".type or ""); in
@@ -59,6 +60,7 @@ ${
   concatStringsSep "\n" l # + (if builtins.length l == 0 then "" else "\n") 
  }
 ```
+
 </p>
 </details>
 
