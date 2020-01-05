@@ -11,6 +11,8 @@ x: 'a -> _: 'b -> Prims.Tot 'a
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Function.flip</code></summary>
 <p>
 ```fstar
@@ -18,6 +20,8 @@ f: (_: 'a -> _: 'b -> Prims.Tot 'c) -> b: 'b -> a: 'a -> Prims.Tot 'c
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Function.on</code></summary>
 <p>
 ```fstar
@@ -25,6 +29,8 @@ f: (_: 'a -> _: 'a -> Prims.Tot 'b) -> t: (_: 'c -> Prims.Tot 'a) -> v: 'c -> w:
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Function.op_At_At</code></summary>
 <p>
 ```fstar
@@ -32,6 +38,8 @@ g: (_: 'b -> Prims.Tot 'c) -> f: (_: 'a -> Prims.Tot 'b) -> a: 'a -> Prims.Tot '
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Function.op_Bar_Greater</code></summary>
 <p>
 ```fstar
@@ -39,6 +47,8 @@ v: 'a -> f: (_: 'a -> Prims.Tot 'b) -> Prims.Tot 'b
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Function.op_Less_Bar</code></summary>
 <p>
 ```fstar
@@ -46,6 +56,8 @@ f: (_: 'a -> Prims.Tot 'b) -> v: 'a -> Prims.Tot 'b
 ```
 </p>
 </details>
+
+
 ## Data.JSON
 <details><summary><code>Data.JSON.Parser.convert</code></summary>
 <p>
@@ -54,6 +66,8 @@ c: Prims.list (n: Prims.nat{n <= 9}) -> Prims.Tot Prims.nat
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.convert_digit</code></summary>
 <p>
 ```fstar
@@ -61,6 +75,8 @@ c: FStar.Char.char -> Prims.Tot (n: Prims.nat{n <= 9})
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.jsonCharParser</code></summary>
 <p>
 ```fstar
@@ -68,6 +84,8 @@ StarCombinator.Core.parser FStar.String.char
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.jsonStringParser</code></summary>
 <p>
 ```fstar
@@ -75,6 +93,8 @@ StarCombinator.Core.parser Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.jsonStringParser'</code></summary>
 <p>
 ```fstar
@@ -82,6 +102,8 @@ StarCombinator.Core.parser Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.match_list</code></summary>
 <p>
 ```fstar
@@ -94,6 +116,8 @@ StarCombinator.Core.parser Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parseArray</code></summary>
 <p>
 ```fstar
@@ -101,6 +125,8 @@ _: Prims.unit -> Prims.Tot (StarCombinator.Core.parser Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parseBool</code></summary>
 <p>
 ```fstar
@@ -108,6 +134,8 @@ StarCombinator.Core.parser Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parseDecimalNumber</code></summary>
 <p>
 ```fstar
@@ -115,6 +143,8 @@ StarCombinator.Core.parser Data.JSON.Types.decimalNumber
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parseNull</code></summary>
 <p>
 ```fstar
@@ -122,6 +152,8 @@ StarCombinator.Core.parser Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parseNumber</code></summary>
 <p>
 ```fstar
@@ -129,6 +161,8 @@ StarCombinator.Core.parser Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parseObject</code></summary>
 <p>
 ```fstar
@@ -136,6 +170,8 @@ _: Prims.unit -> Prims.Tot (StarCombinator.Core.parser Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parseValue</code></summary>
 <p>
 ```fstar
@@ -143,6 +179,8 @@ _: Prims.unit -> Prims.Tot (StarCombinator.Core.parser Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.parser</code></summary>
 <p>
 ```fstar
@@ -150,6 +188,8 @@ source: Prims.string -> Prims.Tot (FStar.Pervasives.either Data.JSON.Types.jsonV
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Parser.test</code></summary>
 <p>
 ```fstar
@@ -157,6 +197,8 @@ FStar.Pervasives.either Data.JSON.Types.jsonValue Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Stringify.escapeString</code></summary>
 <p>
 ```fstar
@@ -164,6 +206,8 @@ s: Prims.string -> Prims.Tot Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Stringify.joinstr</code></summary>
 <p>
 ```fstar
@@ -171,6 +215,8 @@ _: Prims.list Prims.string -> Prims.Tot Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Stringify.printDecimalNumber</code></summary>
 <p>
 ```fstar
@@ -178,6 +224,8 @@ _: Data.JSON.Types.decimalNumber -> Prims.Tot Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Stringify.printDecimalNumber_h</code></summary>
 <p>
 ```fstar
@@ -185,6 +233,8 @@ digits: Prims.list FStar.String.char -> n: Prims.int -> exp: Prims.int -> Prims.
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Stringify.repeat</code></summary>
 <p>
 ```fstar
@@ -192,6 +242,8 @@ n: Prims.nat -> s: Prims.string -> Prims.Tot Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Stringify.stringify</code></summary>
 <p>
 ```fstar
@@ -199,6 +251,8 @@ value: Data.JSON.Types.jsonValue -> spaces: Prims.string -> Prims.Tot Prims.stri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Stringify.stringify_helper</code></summary>
 <p>
 ```fstar
@@ -207,6 +261,8 @@ jump: Prims.bool -> tab: Prims.string -> n: Prims.nat -> value: Data.JSON.Types.
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Types.decimalNumber</code></summary>
 <p>
 ```fstar
@@ -214,6 +270,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.Types.jsonValue</code></summary>
 <p>
 ```fstar
@@ -221,6 +279,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.decimalNumber_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -228,6 +288,8 @@ Data.Serialize.Typeclasses.hasSerialize Data.JSON.Types.decimalNumber
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.decimalNumber_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -235,6 +297,8 @@ x0: Data.Serialize.Types.serialized -> Prims.Tot Data.JSON.Types.decimalNumber
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.decimalNumber_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -243,6 +307,8 @@ x1: Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.decimalNumber_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -250,6 +316,8 @@ x19: Data.JSON.Types.decimalNumber -> Prims.Tot Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.decimalNumber_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -258,6 +326,8 @@ x21: Data.JSON.Types.decimalNumber -> x22: Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.jsonValue</code></summary>
 <p>
 ```fstar
@@ -265,6 +335,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.jsonValue_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -272,6 +344,8 @@ Data.Serialize.Typeclasses.hasSerialize Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.jsonValue_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -279,6 +353,8 @@ x0: Data.Serialize.Types.serialized -> Prims.Tot Data.JSON.Types.jsonValue
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.jsonValue_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -287,6 +363,8 @@ x1: Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.jsonValue_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -294,6 +372,8 @@ x30: Data.JSON.Types.jsonValue -> Prims.Tot Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.jsonValue_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -304,6 +384,8 @@ x32: Data.JSON.Types.jsonValue -> x33: Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.nat_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -311,6 +393,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.nat_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -323,6 +407,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.parse</code></summary>
 <p>
 ```fstar
@@ -330,6 +416,8 @@ source: Prims.string -> Prims.Tot (FStar.Pervasives.either Data.JSON.Types.jsonV
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.parse'</code></summary>
 <p>
 ```fstar
@@ -337,6 +425,8 @@ source: Prims.string -> Prims.Tot Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.stringify</code></summary>
 <p>
 ```fstar
@@ -344,6 +434,8 @@ v: Data.JSON.Types.jsonValue -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.stringify'</code></summary>
 <p>
 ```fstar
@@ -351,6 +443,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.tuple2_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -363,6 +457,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.tuple2_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -374,6 +470,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.tuple2_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -385,6 +483,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.tuple2_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -400,6 +500,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.JSON.tuple2_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -416,6 +518,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 ## Data.Map
 ### Data.Map.Enumerable
 #### Data.Map.Enumerable.NonOrdered
@@ -427,6 +531,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.em_combine</code></summary>
 <p>
 ```fstar
@@ -438,6 +544,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.em_equal</code></summary>
 <p>
 ```fstar
@@ -449,6 +557,8 @@ v: Data.Serialize.serialized -> Prims.Tot (spaces: Prims.string -> Prims.Tot Pri
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.em_get</code></summary>
 <p>
 ```fstar
@@ -456,6 +566,8 @@ m: Data.Map.Enumerable.NonOrdered.enumerableMap 'a -> k: Prims.string -> Prims.T
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.em_set</code></summary>
 <p>
 ```fstar
@@ -464,6 +576,8 @@ m: Data.Map.Enumerable.NonOrdered.enumerableMap 'a -> k: Prims.string -> v: 'a
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.enumerableMap</code></summary>
 <p>
 ```fstar
@@ -471,6 +585,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.enumerableMap'S</code></summary>
 <p>
 ```fstar
@@ -478,6 +594,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.enumerableMap'S'dec</code></summary>
 <p>
 ```fstar
@@ -488,6 +606,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.enumerableMap'S'enc</code></summary>
 <p>
 ```fstar
@@ -496,6 +616,8 @@ m: Data.Map.Enumerable.NonOrdered.enumerableMap a
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.listToEnumerableSet</code></summary>
 <p>
 ```fstar
@@ -506,6 +628,8 @@ m: Data.Map.Enumerable.NonOrdered.enumerableMap a
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.listToEnumerableSet_resolver</code></summary>
 <p>
 ```fstar
@@ -517,6 +641,8 @@ m: Data.Map.Enumerable.NonOrdered.enumerableMap a
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Map.Enumerable.NonOrdered.state_to_em</code></summary>
 <p>
 ```fstar
@@ -524,6 +650,8 @@ s: (_: Prims.string -> Prims.Tot _) -> Prims.Tot (Data.Map.Enumerable.NonOrdered
 ```
 </p>
 </details>
+
+
 ## Data.Serialize
 <details><summary><code>Data.Serialize.Decode.change_last</code></summary>
 <p>
@@ -532,6 +660,8 @@ f: (_: 'a -> Prims.Tot 'a) -> l: Prims.list 'a -> Prims.Tot (Prims.list 'a)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.generateDecodeSerialize</code></summary>
 <p>
 ```fstar
@@ -539,6 +669,8 @@ name: FStar.Reflection.Types.fv -> FStar.Tactics.Effect.Tac FStar.Reflection.Dat
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.generateDecodeSerialize_for_inductiveSumup</code></summary>
 <p>
 ```fstar
@@ -546,6 +678,8 @@ s: Data.Serialize.Types.inductiveSumup -> FStar.Tactics.Effect.Tac FStar.Reflect
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.generateDecodeSerialize_term_for_argSumup</code></summary>
 <p>
 ```fstar
@@ -556,6 +690,8 @@ s: Data.Serialize.Types.inductiveSumup -> FStar.Tactics.Effect.Tac FStar.Reflect
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.generateDecodeSerialize_term_for_consSumup</code></summary>
 <p>
 ```fstar
@@ -567,6 +703,8 @@ s: Data.Serialize.Types.inductiveSumup -> FStar.Tactics.Effect.Tac FStar.Reflect
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.generateDecodeSerialize_term_for_inductiveSumup</code></summary>
 <p>
 ```fstar
@@ -574,6 +712,8 @@ s: Data.Serialize.Types.inductiveSumup -> FStar.Tactics.Effect.Tac FStar.Reflect
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.id_tac_term</code></summary>
 <p>
 ```fstar
@@ -581,6 +721,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.transform_name_decode</code></summary>
 <p>
 ```fstar
@@ -588,6 +730,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Decode.transform_name_decode'</code></summary>
 <p>
 ```fstar
@@ -595,6 +739,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Encode.generateDecodeSerialize_term_for_argSumup</code></summary>
 <p>
 ```fstar
@@ -605,6 +751,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Encode.generateEncodeSerialize</code></summary>
 <p>
 ```fstar
@@ -612,6 +760,8 @@ name: FStar.Reflection.Types.fv -> FStar.Tactics.Effect.Tac FStar.Reflection.Dat
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Encode.generateEncodeSerialize_for_inductiveSumup</code></summary>
 <p>
 ```fstar
@@ -619,6 +769,8 @@ s: Data.Serialize.Types.inductiveSumup -> FStar.Tactics.Effect.Tac FStar.Reflect
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Encode.generateEncodeSerialize_term_for_inductiveSumup</code></summary>
 <p>
 ```fstar
@@ -626,6 +778,8 @@ s: Data.Serialize.Types.inductiveSumup -> FStar.Tactics.Effect.Tac FStar.Reflect
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Encode.transform_name_encode</code></summary>
 <p>
 ```fstar
@@ -633,6 +787,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Encode.transform_name_encode'</code></summary>
 <p>
 ```fstar
@@ -640,6 +796,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.appendBool</code></summary>
 <p>
 ```fstar
@@ -652,6 +810,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.appendInt</code></summary>
 <p>
 ```fstar
@@ -664,6 +824,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.appendList</code></summary>
 <p>
 ```fstar
@@ -676,6 +838,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.appendName</code></summary>
 <p>
 ```fstar
@@ -688,6 +852,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.appendString</code></summary>
 <p>
 ```fstar
@@ -700,6 +866,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.compose</code></summary>
 <p>
 ```fstar
@@ -710,6 +878,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.emptySerialized</code></summary>
 <p>
 ```fstar
@@ -717,6 +887,8 @@ Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.readBool</code></summary>
 <p>
 ```fstar
@@ -724,6 +896,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.readInt</code></summary>
 <p>
 ```fstar
@@ -731,6 +905,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.int * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.readList</code></summary>
 <p>
 ```fstar
@@ -741,6 +917,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.int * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.readName</code></summary>
 <p>
 ```fstar
@@ -749,6 +927,8 @@ x: Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Serialized.readString</code></summary>
 <p>
 ```fstar
@@ -756,6 +936,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.string * Data.Serialize.T
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Test.call1_test</code></summary>
 <p>
 ```fstar
@@ -763,6 +945,8 @@ Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Test.call2_test</code></summary>
 <p>
 ```fstar
@@ -770,6 +954,8 @@ Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Test.mkLet_tup'_test</code></summary>
 <p>
 ```fstar
@@ -777,6 +963,8 @@ Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Test.mkMatchInductive_test_typ</code></summary>
 <p>
 ```fstar
@@ -784,6 +972,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Test.mkMatchInt_test</code></summary>
 <p>
 ```fstar
@@ -791,6 +981,8 @@ Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.Test.mkMatchInt_test2</code></summary>
 <p>
 ```fstar
@@ -798,6 +990,8 @@ x0: Prims.int -> Prims.Tot Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.add_admit</code></summary>
 <p>
 ```fstar
@@ -805,6 +999,8 @@ body: FStar.Reflection.Types.term -> FStar.Tactics.Effect.Tac FStar.Reflection.T
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.add_admit_decr_lex</code></summary>
 <p>
 ```fstar
@@ -813,6 +1009,8 @@ v: FStar.Reflection.Types.term -> body: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.admitMe</code></summary>
 <p>
 ```fstar
@@ -820,6 +1018,8 @@ n: _ -> Prims.Tot _
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.admitTerm</code></summary>
 <p>
 ```fstar
@@ -827,6 +1027,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.argvToBinder</code></summary>
 <p>
 ```fstar
@@ -834,6 +1036,8 @@ x: FStar.Reflection.Data.argv -> FStar.Tactics.Effect.TAC FStar.Reflection.Types
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.binderName</code></summary>
 <p>
 ```fstar
@@ -841,6 +1045,8 @@ n: Prims.string -> Prims.Tot FStar.Reflection.Types.binder
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.binderNth</code></summary>
 <p>
 ```fstar
@@ -848,6 +1054,8 @@ n: Prims.int -> Prims.Tot FStar.Reflection.Types.binder
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.binderToArgv</code></summary>
 <p>
 ```fstar
@@ -856,6 +1064,8 @@ b: FStar.Reflection.Types.binder
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.bvName</code></summary>
 <p>
 ```fstar
@@ -863,6 +1073,8 @@ n: Prims.string -> Prims.Tot FStar.Reflection.Types.bv
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.bvNth</code></summary>
 <p>
 ```fstar
@@ -870,6 +1082,8 @@ n: Prims.int -> Prims.Tot FStar.Reflection.Types.bv
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.call1</code></summary>
 <p>
 ```fstar
@@ -878,6 +1092,8 @@ f: FStar.Reflection.Types.term -> arg: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.call2</code></summary>
 <p>
 ```fstar
@@ -889,6 +1105,8 @@ f: FStar.Reflection.Types.term -> arg: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.call3</code></summary>
 <p>
 ```fstar
@@ -901,6 +1119,8 @@ f: FStar.Reflection.Types.term -> arg: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.findIndex</code></summary>
 <p>
 ```fstar
@@ -909,6 +1129,8 @@ x: FStar.Reflection.Types.bv -> l: Prims.list FStar.Reflection.Types.bv
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.findIndex'</code></summary>
 <p>
 ```fstar
@@ -917,6 +1139,8 @@ x: FStar.Reflection.Types.bv -> n: Prims.nat -> l: Prims.list FStar.Reflection.T
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.fvOf</code></summary>
 <p>
 ```fstar
@@ -924,6 +1148,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.TAC FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.last</code></summary>
 <p>
 ```fstar
@@ -931,6 +1157,8 @@ l: Prims.list 'a -> FStar.Tactics.Effect.Tac 'a
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.lex</code></summary>
 <p>
 ```fstar
@@ -939,6 +1167,8 @@ l: FStar.Reflection.Types.term -> r: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.lookup_typ'</code></summary>
 <p>
 ```fstar
@@ -947,6 +1177,8 @@ env: FStar.Reflection.Types.env -> name: FStar.Reflection.Types.name
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.makeEitherType</code></summary>
 <p>
 ```fstar
@@ -954,6 +1186,8 @@ types: Prims.list FStar.Reflection.Types.typ -> FStar.Tactics.Effect.Tac FStar.R
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.makeOptionType</code></summary>
 <p>
 ```fstar
@@ -961,6 +1195,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.makeTupleType</code></summary>
 <p>
 ```fstar
@@ -968,6 +1204,8 @@ types: Prims.list FStar.Reflection.Types.typ -> FStar.Tactics.Effect.Tac FStar.R
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkLet_tup</code></summary>
 <p>
 ```fstar
@@ -980,6 +1218,8 @@ types: Prims.list FStar.Reflection.Types.typ -> FStar.Tactics.Effect.Tac FStar.R
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkLet_tup'</code></summary>
 <p>
 ```fstar
@@ -990,6 +1230,8 @@ def: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkList</code></summary>
 <p>
 ```fstar
@@ -997,6 +1239,8 @@ min: Prims.int -> max: Prims.int -> Prims.Tot (Prims.list Prims.int)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkMatchInductive</code></summary>
 <p>
 ```fstar
@@ -1010,6 +1254,8 @@ min: Prims.int -> max: Prims.int -> Prims.Tot (Prims.list Prims.int)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkMatchInt</code></summary>
 <p>
 ```fstar
@@ -1018,6 +1264,8 @@ n: FStar.Reflection.Types.term -> bodies: Prims.list FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkTupleType</code></summary>
 <p>
 ```fstar
@@ -1025,6 +1273,8 @@ a: Type -> b: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkTupleTypeTac</code></summary>
 <p>
 ```fstar
@@ -1033,6 +1283,8 @@ a: FStar.Reflection.Types.typ -> b: FStar.Reflection.Types.typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mk_abs</code></summary>
 <p>
 ```fstar
@@ -1041,6 +1293,8 @@ bs: Prims.list FStar.Reflection.Types.binder -> body: FStar.Reflection.Types.ter
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.mkerror</code></summary>
 <p>
 ```fstar
@@ -1048,6 +1302,8 @@ _: Prims.string -> Prims.Tot t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.nameCurMod'</code></summary>
 <p>
 ```fstar
@@ -1056,6 +1312,8 @@ n: FStar.Reflection.Types.name -> f: (_: Prims.string -> Prims.Tot Prims.string)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.name_to_term</code></summary>
 <p>
 ```fstar
@@ -1063,6 +1321,8 @@ n: FStar.Reflection.Types.name -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.norm_term'</code></summary>
 <p>
 ```fstar
@@ -1070,6 +1330,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.withIndex</code></summary>
 <p>
 ```fstar
@@ -1077,6 +1339,8 @@ l: Prims.list 'a -> Prims.Tot (Prims.list (Prims.int * 'a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Helpers.withIndex_helper</code></summary>
 <p>
 ```fstar
@@ -1084,6 +1348,8 @@ l: Prims.list 'a -> n: Prims.int -> Prims.Tot (Prims.list (Prims.int * 'a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Rep.makeGenericRep</code></summary>
 <p>
 ```fstar
@@ -1091,6 +1357,8 @@ name: FStar.Reflection.Types.fv -> FStar.Tactics.Effect.Tac Data.Serialize.Types
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Rep.makeGenericRep'Cons</code></summary>
 <p>
 ```fstar
@@ -1099,6 +1367,8 @@ iVars: Prims.nat -> name: FStar.Reflection.Types.name
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Rep.makeGenericRep'Cons'Arg</code></summary>
 <p>
 ```fstar
@@ -1107,6 +1377,8 @@ iVars: Prims.nat -> bvs: Prims.list FStar.Reflection.Types.bv -> t: FStar.Reflec
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.deserialize</code></summary>
 <p>
 ```fstar
@@ -1117,6 +1389,8 @@ iVars: Prims.nat -> bvs: Prims.list FStar.Reflection.Types.bv -> t: FStar.Reflec
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.deserialize_chainable</code></summary>
 <p>
 ```fstar
@@ -1126,6 +1400,8 @@ iVars: Prims.nat -> bvs: Prims.list FStar.Reflection.Types.bv -> t: FStar.Reflec
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.generateSerialize</code></summary>
 <p>
 ```fstar
@@ -1134,6 +1410,8 @@ t: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.generateSerialize'</code></summary>
 <p>
 ```fstar
@@ -1142,6 +1420,8 @@ tfv: FStar.Reflection.Types.fv
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1149,6 +1429,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.intHasSerialize</code></summary>
 <p>
 ```fstar
@@ -1156,6 +1438,8 @@ Data.Serialize.Typeclasses.hasSerialize Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.listIntHasSerialize</code></summary>
 <p>
 ```fstar
@@ -1163,6 +1447,8 @@ Prims.Tot (Data.Serialize.Typeclasses.hasSerialize (Prims.list a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.makeHasSerializeInstance</code></summary>
 <p>
 ```fstar
@@ -1174,6 +1460,8 @@ Prims.Tot (Data.Serialize.Typeclasses.hasSerialize (Prims.list a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.serialize</code></summary>
 <p>
 ```fstar
@@ -1182,6 +1470,8 @@ Prims.Tot (Data.Serialize.Typeclasses.hasSerialize (Prims.list a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.serialize_chainable</code></summary>
 <p>
 ```fstar
@@ -1191,6 +1481,8 @@ Prims.Tot (Data.Serialize.Typeclasses.hasSerialize (Prims.list a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Typeclasses.xx</code></summary>
 <p>
 ```fstar
@@ -1198,6 +1490,8 @@ _: Data.Serialize.Types.serialized -> Prims.Tot Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Types.argSumup</code></summary>
 <p>
 ```fstar
@@ -1205,6 +1499,8 @@ args: Prims.nat -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Types.consSumup</code></summary>
 <p>
 ```fstar
@@ -1212,6 +1508,8 @@ iVars: Prims.nat -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Types.inductiveSumup</code></summary>
 <p>
 ```fstar
@@ -1219,6 +1517,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Types.serialize_size</code></summary>
 <p>
 ```fstar
@@ -1226,6 +1526,8 @@ _: Data.Serialize.Types.serialized -> Prims.Tot Prims.nat
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Types.serialized</code></summary>
 <p>
 ```fstar
@@ -1233,6 +1535,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.Types.tserialized</code></summary>
 <p>
 ```fstar
@@ -1240,6 +1544,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.boolHasSerialize</code></summary>
 <p>
 ```fstar
@@ -1247,6 +1553,8 @@ Data.Serialize.Typeclasses.hasSerialize Prims.bool
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.bool_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1254,6 +1562,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.bool_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1266,6 +1576,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.deserialize</code></summary>
 <p>
 ```fstar
@@ -1276,6 +1588,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.either_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1288,6 +1602,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.either_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -1299,6 +1615,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.either_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1310,6 +1628,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.either_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -1329,6 +1649,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.either_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1349,6 +1671,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.bool * Data.Serialize.Typ
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.fvOf</code></summary>
 <p>
 ```fstar
@@ -1356,6 +1680,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.TAC FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.generateDecodeSerialize</code></summary>
 <p>
 ```fstar
@@ -1363,6 +1689,8 @@ name: FStar.Reflection.Types.fv -> FStar.Tactics.Effect.Tac FStar.Reflection.Dat
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.generateEncodeSerialize</code></summary>
 <p>
 ```fstar
@@ -1370,6 +1698,8 @@ name: FStar.Reflection.Types.fv -> FStar.Tactics.Effect.Tac FStar.Reflection.Dat
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.generateSerialize</code></summary>
 <p>
 ```fstar
@@ -1378,6 +1708,8 @@ t: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.generateSerialize'</code></summary>
 <p>
 ```fstar
@@ -1386,6 +1718,8 @@ tfv: FStar.Reflection.Types.fv
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1393,6 +1727,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.intHasSerialize</code></summary>
 <p>
 ```fstar
@@ -1400,6 +1736,8 @@ Data.Serialize.Typeclasses.hasSerialize Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.int_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1407,6 +1745,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.int * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.int_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1419,6 +1759,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.int * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.listHasSerialize</code></summary>
 <p>
 ```fstar
@@ -1427,6 +1769,8 @@ a: Type -> (#[FStar.Tactics.Typeclasses.tcresolve ()] _: Data.Serialize.Typeclas
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.list_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1437,6 +1781,8 @@ a: Type -> (#[FStar.Tactics.Typeclasses.tcresolve ()] _: Data.Serialize.Typeclas
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.list_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1449,6 +1795,8 @@ a: Type -> (#[FStar.Tactics.Typeclasses.tcresolve ()] _: Data.Serialize.Typeclas
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.nameHasSerialize</code></summary>
 <p>
 ```fstar
@@ -1456,6 +1804,8 @@ Data.Serialize.Typeclasses.hasSerialize FStar.Reflection.Types.name
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.name_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1464,6 +1814,8 @@ x: Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.name_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1476,6 +1828,8 @@ x: Data.Serialize.Types.serialized
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.nat_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1483,6 +1837,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.nat_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1495,6 +1851,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.option_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1505,6 +1863,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.option_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -1515,6 +1875,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.option_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1525,6 +1887,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.option_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -1539,6 +1903,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.option_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1554,6 +1920,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.serialize</code></summary>
 <p>
 ```fstar
@@ -1562,6 +1930,8 @@ s: Data.Serialize.Types.serialized -> Prims.Tot (Prims.nat * Data.Serialize.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.serialized</code></summary>
 <p>
 ```fstar
@@ -1569,6 +1939,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.stringHasSerialize</code></summary>
 <p>
 ```fstar
@@ -1576,6 +1948,8 @@ Data.Serialize.Typeclasses.hasSerialize Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.string_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1583,6 +1957,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.string * Data.Serialize.T
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.string_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1595,6 +1971,8 @@ x: Data.Serialize.Types.serialized -> Prims.Tot (Prims.string * Data.Serialize.T
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tserialized</code></summary>
 <p>
 ```fstar
@@ -1602,6 +1980,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple2_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1614,6 +1994,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple2_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -1625,6 +2007,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple2_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1636,6 +2020,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple2_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -1651,6 +2037,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple2_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1667,6 +2055,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple3_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1681,6 +2071,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple3_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -1693,6 +2085,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple3_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1705,6 +2099,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple3_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -1721,6 +2117,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple3_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1738,6 +2136,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple4_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1754,6 +2154,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple4_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -1767,6 +2169,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple4_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1780,6 +2184,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple4_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -1797,6 +2203,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple4_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1815,6 +2223,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple5_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1833,6 +2243,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple5_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -1847,6 +2259,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple5_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1861,6 +2275,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple5_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -1879,6 +2295,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple5_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1898,6 +2316,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple6_hasSerialize</code></summary>
 <p>
 ```fstar
@@ -1918,6 +2338,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple6_serialize_decode</code></summary>
 <p>
 ```fstar
@@ -1933,6 +2355,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple6_serialize_decode_chainable</code></summary>
 <p>
 ```fstar
@@ -1948,6 +2372,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple6_serialize_encode</code></summary>
 <p>
 ```fstar
@@ -1967,6 +2393,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Serialize.tuple6_serialize_encode_chainable</code></summary>
 <p>
 ```fstar
@@ -1987,6 +2415,8 @@ a: _ -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 ## Data.Set
 ### Data.Set.Computable
 #### Data.Set.Computable.NonOrdered
@@ -1997,6 +2427,8 @@ Prims.Tot (PartialOrder.hasLPartialOrder (Data.Set.Computable.NonOrdered.set c))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.PartialOrder.gsetLPO</code></summary>
 <p>
 ```fstar
@@ -2004,6 +2436,8 @@ Prims.Tot (PartialOrder.hasLPartialOrder (FStar.GSet.set c))
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.add_in_set</code></summary>
 <p>
 ```fstar
@@ -2011,6 +2445,8 @@ x: t -> s: Data.Set.Computable.NonOrdered.set t -> Prims.Tot (Data.Set.Computabl
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.add_in_set'</code></summary>
 <p>
 ```fstar
@@ -2019,6 +2455,8 @@ s: Prims.list t {Data.Set.Computable.NonOrdered.no_dup s} -> x: t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.cset_to_set</code></summary>
 <p>
 ```fstar
@@ -2026,6 +2464,8 @@ s: Data.Set.Computable.NonOrdered.set t -> Prims.Tot (FStar.GSet.set t)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.dup_behead</code></summary>
 <p>
 ```fstar
@@ -2034,6 +2474,8 @@ x: t -> a: Prims.list t {Data.Set.Computable.NonOrdered.no_dup (x :: a)}
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.equal</code></summary>
 <p>
 ```fstar
@@ -2042,6 +2484,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.findAndRemove</code></summary>
 <p>
 ```fstar
@@ -2050,6 +2494,8 @@ a: Data.Set.Computable.NonOrdered.set t -> x: t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.intersect</code></summary>
 <p>
 ```fstar
@@ -2058,6 +2504,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_convert_wf</code></summary>
 <p>
 ```fstar
@@ -2070,6 +2518,8 @@ s: Data.Set.Computable.NonOrdered.set t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intermediaire</code></summary>
 <p>
 ```fstar
@@ -2081,6 +2531,8 @@ a: Data.Set.Computable.NonOrdered.set t -> h: t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_cons_l</code></summary>
 <p>
 ```fstar
@@ -2094,6 +2546,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_cons_r</code></summary>
 <p>
 ```fstar
@@ -2109,6 +2563,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_empty_l</code></summary>
 <p>
 ```fstar
@@ -2119,6 +2575,8 @@ a: Data.Set.Computable.NonOrdered.set t -> x: t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_empty_r</code></summary>
 <p>
 ```fstar
@@ -2129,6 +2587,8 @@ a: Data.Set.Computable.NonOrdered.set t -> x: t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_left</code></summary>
 <p>
 ```fstar
@@ -2140,6 +2600,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_mem_both</code></summary>
 <p>
 ```fstar
@@ -2151,6 +2613,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_mem_equiv</code></summary>
 <p>
 ```fstar
@@ -2162,6 +2626,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_not_left</code></summary>
 <p>
 ```fstar
@@ -2175,6 +2641,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_intersect_not_right</code></summary>
 <p>
 ```fstar
@@ -2187,6 +2655,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_memIntersect_memLeft</code></summary>
 <p>
 ```fstar
@@ -2198,6 +2668,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_memIntersect_memRight</code></summary>
 <p>
 ```fstar
@@ -2209,6 +2681,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_mem_both_intersect</code></summary>
 <p>
 ```fstar
@@ -2220,6 +2694,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_mem_empty</code></summary>
 <p>
 ```fstar
@@ -2227,6 +2703,8 @@ x: t -> Prims.Lemma Prims.unit (Data.Set.Computable.NonOrdered.mem x [] = false)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_no_dup_remove</code></summary>
 <p>
 ```fstar
@@ -2237,6 +2715,8 @@ l: Prims.list t {Data.Set.Computable.NonOrdered.no_dup l} -> x: t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_remove'</code></summary>
 <p>
 ```fstar
@@ -2248,6 +2728,8 @@ a: Data.Set.Computable.NonOrdered.set t -> x: t -> y: t{x <> y}
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_remove_irrevelant</code></summary>
 <p>
 ```fstar
@@ -2256,6 +2738,8 @@ s: Data.Set.Computable.NonOrdered.set t -> x: t{~(Data.Set.Computable.NonOrdered
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_subset_add</code></summary>
 <p>
 ```fstar
@@ -2267,6 +2751,8 @@ s: Data.Set.Computable.NonOrdered.set t -> x: t{~(Data.Set.Computable.NonOrdered
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_subset_invert</code></summary>
 <p>
 ```fstar
@@ -2282,6 +2768,8 @@ s: Data.Set.Computable.NonOrdered.set t -> x: t{~(Data.Set.Computable.NonOrdered
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_subset_ref</code></summary>
 <p>
 ```fstar
@@ -2290,6 +2778,8 @@ a: Data.Set.Computable.NonOrdered.set t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_subset_remove</code></summary>
 <p>
 ```fstar
@@ -2305,6 +2795,8 @@ a: Data.Set.Computable.NonOrdered.set t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_subset_remove'</code></summary>
 <p>
 ```fstar
@@ -2319,6 +2811,8 @@ a: Data.Set.Computable.NonOrdered.set t
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_subset_sym</code></summary>
 <p>
 ```fstar
@@ -2330,6 +2824,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_subset_trans</code></summary>
 <p>
 ```fstar
@@ -2341,6 +2837,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_triv</code></summary>
 <p>
 ```fstar
@@ -2348,6 +2846,8 @@ unit: _ -> Prims.Lemma Prims.unit (true == true <: Prims.Tot Type0) []
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_union'_no_dup</code></summary>
 <p>
 ```fstar
@@ -2356,6 +2856,8 @@ s: Prims.list t {Data.Set.Computable.NonOrdered.no_dup s}
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.lemma_union_step</code></summary>
 <p>
 ```fstar
@@ -2367,6 +2869,8 @@ s: Data.Set.Computable.NonOrdered.set t -> h: t{~(Data.Set.Computable.NonOrdered
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.list_to_set</code></summary>
 <p>
 ```fstar
@@ -2374,6 +2878,8 @@ a: Prims.list t -> Prims.Tot (Data.Set.Computable.NonOrdered.set t)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.mem</code></summary>
 <p>
 ```fstar
@@ -2381,6 +2887,8 @@ x: t -> a: Data.Set.Computable.NonOrdered.set t -> Prims.Tot Prims.bool
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.no_dup</code></summary>
 <p>
 ```fstar
@@ -2388,6 +2896,8 @@ a: Prims.list t -> Prims.Tot Prims.logical
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.remove</code></summary>
 <p>
 ```fstar
@@ -2395,6 +2905,8 @@ a: Data.Set.Computable.NonOrdered.set t -> x: t -> Prims.Tot (Data.Set.Computabl
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.remove_head</code></summary>
 <p>
 ```fstar
@@ -2403,6 +2915,8 @@ x: t -> a: Data.Set.Computable.NonOrdered.set t {~(Data.Set.Computable.NonOrdere
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.remove_lemma</code></summary>
 <p>
 ```fstar
@@ -2417,6 +2931,8 @@ x: t -> a: Data.Set.Computable.NonOrdered.set t {~(Data.Set.Computable.NonOrdere
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.remove_mem_dec</code></summary>
 <p>
 ```fstar
@@ -2428,6 +2944,8 @@ x: t -> a: Data.Set.Computable.NonOrdered.set t {Data.Set.Computable.NonOrdered.
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.set</code></summary>
 <p>
 ```fstar
@@ -2435,6 +2953,8 @@ a: Prims.eqtype -> Prims.Tot Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.set_to_list</code></summary>
 <p>
 ```fstar
@@ -2442,6 +2962,8 @@ a: Data.Set.Computable.NonOrdered.set t -> Prims.Tot (Prims.list t)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.singleton</code></summary>
 <p>
 ```fstar
@@ -2449,6 +2971,8 @@ a: t -> Prims.Tot (Data.Set.Computable.NonOrdered.set t)
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.stupid_mem</code></summary>
 <p>
 ```fstar
@@ -2457,6 +2981,8 @@ s: Prims.list t -> h: t -> x: t{FStar.List.Tot.Base.mem x (h :: s) /\ x <> h}
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.stupid_mem2</code></summary>
 <p>
 ```fstar
@@ -2467,6 +2993,8 @@ l: Data.Set.Computable.NonOrdered.set t -> x: t{~(FStar.List.Tot.Base.mem x l)} 
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.subset</code></summary>
 <p>
 ```fstar
@@ -2475,6 +3003,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.union</code></summary>
 <p>
 ```fstar
@@ -2483,6 +3013,8 @@ a: Data.Set.Computable.NonOrdered.set t -> b: Data.Set.Computable.NonOrdered.set
 ```
 </p>
 </details>
+
+
 <details><summary><code>Data.Set.Computable.NonOrdered.union'</code></summary>
 <p>
 ```fstar
@@ -2491,6 +3023,8 @@ a: Prims.list t -> b: Data.Set.Computable.NonOrdered.set t
 ```
 </p>
 </details>
+
+
 # DefaultValue
 <details><summary><code>DefaultValue.boolHasDefaultValue</code></summary>
 <p>
@@ -2499,6 +3033,8 @@ DefaultValue.hasDefaultValue Prims.bool
 ```
 </p>
 </details>
+
+
 <details><summary><code>DefaultValue.def</code></summary>
 <p>
 ```fstar
@@ -2506,6 +3042,8 @@ DefaultValue.hasDefaultValue Prims.bool
 ```
 </p>
 </details>
+
+
 <details><summary><code>DefaultValue.hasDefaultValue</code></summary>
 <p>
 ```fstar
@@ -2513,6 +3051,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>DefaultValue.intHasDefaultValue</code></summary>
 <p>
 ```fstar
@@ -2520,6 +3060,8 @@ DefaultValue.hasDefaultValue Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>DefaultValue.listHasDefaultValue</code></summary>
 <p>
 ```fstar
@@ -2527,6 +3069,8 @@ Prims.Tot (DefaultValue.hasDefaultValue (Prims.list a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>DefaultValue.optionHasDefaultValue</code></summary>
 <p>
 ```fstar
@@ -2535,6 +3079,8 @@ Prims.Tot (DefaultValue.hasDefaultValue (Prims.list a))
 ```
 </p>
 </details>
+
+
 <details><summary><code>DefaultValue.stringHasDefaultValue</code></summary>
 <p>
 ```fstar
@@ -2542,6 +3088,8 @@ DefaultValue.hasDefaultValue Prims.string
 ```
 </p>
 </details>
+
+
 # MkDoc
 <details><summary><code>MkDoc.compute_term</code></summary>
 <p>
@@ -2550,6 +3098,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.Tac FStar.Reflection.Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.doc</code></summary>
 <p>
 ```fstar
@@ -2557,6 +3107,8 @@ Type0
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.export_types_to_file</code></summary>
 <p>
 ```fstar
@@ -2565,6 +3117,8 @@ matchingAttr: FStar.Pervasives.Native.option FStar.Reflection.Types.term -> file
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.getTypes_asJSON</code></summary>
 <p>
 ```fstar
@@ -2573,6 +3127,8 @@ matchingAttr: FStar.Pervasives.Native.option FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.liststring_of_term</code></summary>
 <p>
 ```fstar
@@ -2581,6 +3137,8 @@ t: FStar.Reflection.Types.term
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.show_def_in_doc</code></summary>
 <p>
 ```fstar
@@ -2588,6 +3146,8 @@ Prims.unit
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.string_of_term</code></summary>
 <p>
 ```fstar
@@ -2595,6 +3155,8 @@ t: FStar.Reflection.Types.term -> FStar.Tactics.Effect.TAC Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.term_eq</code></summary>
 <p>
 ```fstar
@@ -2602,6 +3164,8 @@ x: FStar.Reflection.Types.term -> y: FStar.Reflection.Types.term -> Prims.Tot Pr
 ```
 </p>
 </details>
+
+
 <details><summary><code>MkDoc.x</code></summary>
 <p>
 ```fstar
@@ -2609,6 +3173,8 @@ hd: _ -> tl: Prims.list _ -> Prims.Tot (Prims.list _)
 ```
 </p>
 </details>
+
+
 # PartialOrder
 <details><summary><code>PartialOrder.derivedLPO</code></summary>
 <p>
@@ -2617,6 +3183,8 @@ someInstance: PartialOrder.hasPartialOrder 'a -> Prims.Tot (PartialOrder.hasLPar
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.hasLPartialOrder</code></summary>
 <p>
 ```fstar
@@ -2624,6 +3192,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.hasPartialOrder</code></summary>
 <p>
 ```fstar
@@ -2631,6 +3201,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.isMonotonic</code></summary>
 <p>
 ```fstar
@@ -2642,6 +3214,8 @@ a: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.isPartialOrder</code></summary>
 <p>
 ```fstar
@@ -2649,6 +3223,8 @@ f: (_: a -> _: a -> Prims.Tot Prims.bool) -> Prims.Tot Prims.logical
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.isPartialOrderL</code></summary>
 <p>
 ```fstar
@@ -2657,6 +3233,8 @@ cmp: (_: a -> _: a -> Prims.Tot Type0) -> f: (_: a -> _: a -> Prims.Tot Type0)
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.l_po</code></summary>
 <p>
 ```fstar
@@ -2668,6 +3246,8 @@ cmp: (_: a -> _: a -> Prims.Tot Type0) -> f: (_: a -> _: a -> Prims.Tot Type0)
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.l_po_cmp</code></summary>
 <p>
 ```fstar
@@ -2676,6 +3256,8 @@ cmp: (_: a -> _: a -> Prims.Tot Type0) -> f: (_: a -> _: a -> Prims.Tot Type0)
 ```
 </p>
 </details>
+
+
 <details><summary><code>PartialOrder.po</code></summary>
 <p>
 ```fstar
@@ -2684,6 +3266,8 @@ cmp: (_: a -> _: a -> Prims.Tot Type0) -> f: (_: a -> _: a -> Prims.Tot Type0)
 ```
 </p>
 </details>
+
+
 # ToString
 <details><summary><code>ToString.anyListHasToString</code></summary>
 <p>
@@ -2693,6 +3277,8 @@ cmp: (_: a -> _: a -> Prims.Tot Type0) -> f: (_: a -> _: a -> Prims.Tot Type0)
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.boolHasToString</code></summary>
 <p>
 ```fstar
@@ -2700,6 +3286,8 @@ ToString.hasToString Prims.bool
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.charHasToString</code></summary>
 <p>
 ```fstar
@@ -2707,6 +3295,8 @@ ToString.hasToString FStar.String.char
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.eitherHasToString</code></summary>
 <p>
 ```fstar
@@ -2717,6 +3307,8 @@ ToString.hasToString FStar.String.char
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.hasToString</code></summary>
 <p>
 ```fstar
@@ -2724,6 +3316,8 @@ t: Type -> Prims.Tot Type
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.intHasToString</code></summary>
 <p>
 ```fstar
@@ -2731,6 +3325,8 @@ ToString.hasToString Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.join</code></summary>
 <p>
 ```fstar
@@ -2738,6 +3334,8 @@ sep: Prims.string -> l: Prims.list Prims.string -> Prims.Tot Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.natHasToString</code></summary>
 <p>
 ```fstar
@@ -2745,6 +3343,8 @@ ToString.hasToString Prims.nat
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.nat_to_int</code></summary>
 <p>
 ```fstar
@@ -2752,6 +3352,8 @@ i: Prims.nat -> Prims.Tot Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.op_Hat_Subtraction</code></summary>
 <p>
 ```fstar
@@ -2764,6 +3366,8 @@ i: Prims.nat -> Prims.Tot Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.optionHasToString</code></summary>
 <p>
 ```fstar
@@ -2772,6 +3376,8 @@ i: Prims.nat -> Prims.Tot Prims.int
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.stringHasToString</code></summary>
 <p>
 ```fstar
@@ -2779,6 +3385,8 @@ ToString.hasToString Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.toString</code></summary>
 <p>
 ```fstar
@@ -2787,6 +3395,8 @@ ToString.hasToString Prims.string
 ```
 </p>
 </details>
+
+
 <details><summary><code>ToString.tupleHasToString</code></summary>
 <p>
 ```fstar
@@ -2797,3 +3407,5 @@ ToString.hasToString Prims.string
 ```
 </p>
 </details>
+
+

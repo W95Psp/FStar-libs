@@ -49,7 +49,8 @@ let p = import ./.;
               && (builtins.match ".*\\.[A-Z][^.]*" x == null)
             ) (attrNames doc-db);
             names = map (x:
-''<details><summary><code>${x}</code></summary>
+''
+<details><summary><code>${x}</code></summary>
 <p>
 ```fstar
 ${
@@ -59,7 +60,9 @@ ${
  }
 ```
 </p>
-</details>'' 
+</details>
+
+'' 
 
 # - `${x}`
 # ```${
