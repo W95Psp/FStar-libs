@@ -8,10 +8,13 @@ open FStar.List.Tot
 let joinstr: list string -> string = fold_left (^) ""
 
 let escapeString (s: string): string =
+  let s = FStar.String.split ['\n'] s in
+  let s = FStar.String.concat "\\n" s in
   fold_left (fun l s -> l ^ s) ""
   (map (fun c -> 
     match c with
     | '\"' -> "\\\""
+    | '\\' -> "\\\\"
     | c -> string_of_list [c]
   ) (list_of_string s))
 

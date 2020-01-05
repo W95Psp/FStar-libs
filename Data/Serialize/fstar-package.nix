@@ -8,7 +8,7 @@
       "Data.Serialize.Helpers.Serialized"
       "Data.Serialize.Helpers.Test"
       "Data.Serialize.Rep"
-      "Data.Serialize.Test"
+      # "Data.Serialize.Test"
       "Data.Serialize.Typeclasses"
       "Data.Serialize.Types"
     ];
