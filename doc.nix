@@ -49,12 +49,26 @@ let p = import ./.;
               && (builtins.match ".*\\.[A-Z][^.]*" x == null)
             ) (attrNames doc-db);
             names = map (x:
-              '' - `${x}`
-```${
+''<details><summary><code>${x}</code></summary>
+<p>
+```fstar
+${
   let l = pkgs.lib.splitString "\\n" (doc-db."${x}".type or ""); in
-  "\n" + concatStringsSep "\n" l + "\n" # + (if builtins.length l == 0 then "" else "\n") 
-}```
-              ''
+  # let l = builtins.filter (x: x != "") l; in
+  concatStringsSep "\n" l # + (if builtins.length l == 0 then "" else "\n") 
+ }
+```
+</p>
+</details>'' 
+
+# - `${x}`
+# ```${
+#   let l = pkgs.lib.splitString "\\n" (doc-db."${x}".type or ""); in
+#   "\n" + concatStringsSep "\n" l + "\n" # + (if builtins.length l == 0 then "" else "\n") 
+# }```
+
+
+#               ''
             ) entries;
           in
             (concatStringsSep "\n" names) + "\n"
