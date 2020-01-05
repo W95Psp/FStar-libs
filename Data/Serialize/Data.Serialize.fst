@@ -67,6 +67,15 @@ let listHasSerialize a [| TC.hasSerialize a |]: TC.hasSerialize (list a) = {
 let generateSerialize' = TC.generateSerialize'
 let generateSerialize = TC.generateSerialize
 
+%splice[] (generateSerialize (`option))
+%splice[] (generateSerialize (`either))
+
+let nat_serialize_decode s: (nat * _)
+  = match int_serialize_decode s with
+  | i, s -> if i >= 0 then i, s
+           else Helpers.mkerror "nat_serialize_decode: got an negative integer"
+let nat_serialize_encode: nat -> _ -> _ = int_serialize_encode
+
 let hasSerialize = TC.hasSerialize 
 let serialize   #a [| hasSerialize a |] v = TC.serialize   #a v
 let deserialize #a [| hasSerialize a |] v = TC.deserialize #a v

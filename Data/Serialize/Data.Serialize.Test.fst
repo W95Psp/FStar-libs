@@ -13,6 +13,8 @@ type myTest a = | A : a -> myTest a
                 | C : list a -> myTest a
                 | D : a -> a -> myTest a
 
+let rec f n = admitP (forall t (x: t). %[x] << %[x]); f (n + 1) 
+
 %splice[myTest_serialize_decode; myTest_serialize_decode_chainable]
   (generateDecodeSerialize (fvOf (`myTest)))
 %splice[myTest_serialize_encode; myTest_serialize_encode_chainable]
@@ -22,9 +24,7 @@ type myTest' a = | A' : a -> myTest' a
                  | B' : int -> myTest' a
                  | C' : list a -> myTest' a
                  | D' : myTest a -> myTest' a
-                 | E' : myTest' a -> int -> string -> myTest' a
-
-
+                 | E' : option (myTest' a) -> int -> string -> myTest' a
 
 let decls_: decls = 
   _ by (
@@ -32,8 +32,14 @@ let decls_: decls =
     exact (quote d)
   )
 
-// let _ = assert (decls_ == magic ()) by (unfold_def (`decls_); fail "x")
+%splice[option_serialize_decode; option_serialize_decode_chainable]
+  (generateDecodeSerialize (fvOf (`option))
+)
+%splice[option_serialize_encode; option_serialize_encode_chainable]
+  (generateEncodeSerialize (fvOf (`option))
+)
 
+// let _ = assert (decls_ == magic ()) by (unfold_def (`decls_); fail "x")
 
 %splice[myTest'_serialize_decode; myTest'_serialize_decode_chainable]
   (generateDecodeSerialize (fvOf (`myTest')))
@@ -89,8 +95,8 @@ let _ = assert (
         ; B' 3
         ; C' []; C' [1]; C' [423;532]; C' [12;123;6;3]
         ; D' (A 12)
-        ; E' (A' 13) 4 "HEY"
-        ; E' (E' (E' (D' (A 23)) 6 "X") 5 "B") 3 "A"
+        ; E' (Some (A' 13)) 4 "HEY"
+        ; E' (Some (E' (Some (E' (Some (D' (A 23))) 6 "X")) 5 "B")) 3 "A"
         ]
       )
   )

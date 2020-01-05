@@ -99,6 +99,17 @@ let lex (l r: term) =
   let h (t: term) = call2 (`LexCons) t (`LexTop) in
   call2 (`(<<)) (h l) (h r)
 
+let add_admit body
+  : Tac term
+  = let proof = fresh_bv (`_) in
+    pack
+    ( Tv_Let false []
+      proof
+      (`(admitP (forall t (x: t). %[x] << %[x])))
+      // (call1 (`admit) (`()))
+      body
+    )
+    
 let add_admit_decr_lex (v: term) body
   : Tac term
   = let proof = fresh_bv (`_) in

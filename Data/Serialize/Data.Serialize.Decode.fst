@@ -33,17 +33,10 @@ let rec generateDecodeSerialize_term_for_argSumup
   | AS_TVar i -> binder_to_term (L.index args_fun i)
   | AS_Inductive tname args ->
     let f = name_to_term (transform_name_decode' tname) in
-    mk_e_app f (map (generateDecodeSerialize_term_for_argSumup args_fun) args)
+    let f = add_admit f in // TODO: this is a very dirty hack
+    (mk_e_app f (map (generateDecodeSerialize_term_for_argSumup args_fun) args))
 
 let id_tac_term (t: term): Tac term = t
-
-let x = %[123] << %[234]
-
-let xx: term = _ by (
-  let t: term = `(%[(123, 42)] << %[234]) in
-  exact (quote t)
-)
-
 
 let generateDecodeSerialize_term_for_consSumup #n (encoders: list _ {L.length encoders = n}) (cons: consSumup n) (serialized_inp: bv)
   : Tac (constructor_serialized: term)
@@ -111,7 +104,9 @@ let generateDecodeSerialize_for_inductiveSumup
              (mk_abs (decoders @ [inp]) (
                call1 (`fst) (mk_e_app body (map binder_to_term (decoders @ [inp])))
              ))
-    in [pack_sigelt sg'; pack_sigelt sg]
+    in
+    // dump (term_to_string (quote sg'));
+    [pack_sigelt sg'; pack_sigelt sg]
 
 let generateDecodeSerialize
     (name: fv)
