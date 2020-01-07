@@ -61,8 +61,6 @@ let listToEnumerableSet (#a:Type) [| hasDefaultValue a |] (lst:list (tuple2 stri
     ; _em_keys = CSet.list_to_set (map (fun (k, _) -> k) lst)
     }
 
-type enumerableMap'S a = list (string * a)
-let enumerableMap'S'enc #a m: enumerableMap'S a = 
-  map (fun x -> x, m._em_data x) (CSet.set_to_list m._em_keys)
-let enumerableMap'S'dec #a [| hasDefaultValue a |] (m: enumerableMap'S a): enumerableMap a = 
-  listToEnumerableSet m
+let enumerableMapToList (#a:Type) (m: enumerableMap a): list (string * a)
+  = map (fun key -> key, m._em_data key) m._em_keys
+

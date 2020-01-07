@@ -25,6 +25,7 @@ let rec makeGenericRep'Cons'Arg (iVars: nat) (bvs: list bv) t: Tac (argSumup iVa
     | ["Prims";"string"], _ -> AS_String
     | n, _ -> AS_Inductive n (map (fun (x, _) -> h x) args)
     )
+  | Tv_Refine bv ref -> makeGenericRep'Cons'Arg iVars bvs ((inspect_bv bv).bv_sort)
   | Tv_Var x | Tv_BVar x -> AS_TVar (if iVars = 0 then fail "found Tv_BVar while no type variable are bound" else (findIndex x bvs % iVars))
   | tv -> fail ("DUNNO HOW TO ACT WITH " ^ term_to_string f ^ ", that is " ^ term_to_string (quote tv))
   

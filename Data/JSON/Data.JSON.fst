@@ -20,14 +20,9 @@ let jsonValue = T.jsonValue
 // let parse_not_native = C.parser
 // let stringify_not_native = S.stringify
 
-let stringify' (v: serialized) =
-  S.stringify (deserialize v)
+let stringify' (v: serialized) (spaces: string): string =
+  S.stringify (deserialize v) spaces
 
-[@plugin]
-let stringify (v: T.jsonValue) = stringify' (serialize v)
-
-[@plugin]
-let parse' (source: string) =
-  serialize (C.parser source)
-let parse (source: string): either T.jsonValue string = deserialize (parse' source)
+%splice[] (mk_native_version (`stringify') "stringify" [true;false] false)
+%splice[] (mk_native_version (`C.parser) "parse" [false] true)
 

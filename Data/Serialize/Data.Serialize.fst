@@ -96,3 +96,5 @@ let generateEncodeSerialize = E.generateEncodeSerialize
 val generateDecodeSerialize: (name: fv) -> Tac decls
 let generateDecodeSerialize = D.generateDecodeSerialize
 
+include Data.Serialize.MakeNative
+

@@ -9,7 +9,7 @@ open FStar.Tactics
 module L = FStar.List.Tot
 
 type myTest a = | A : a -> myTest a
-                | B : int -> myTest a
+                | B : (n: int{n > 3}) -> myTest a
                 | C : list a -> myTest a
                 | D : a -> a -> myTest a
 
@@ -76,7 +76,7 @@ let _ = assert (
     L.fold_left (fun x y -> x /\ y) True
       (L.map (isIdentity (encodeDecode myTest_serialize_encode_chainable myTest_serialize_decode_chainable readInt appendInt))
         [ A 12; A 45
-        ; B 3
+        ; B 4
         ; C []; C [1]; C [423;532]; C [12;123;6;3]
         ; D 2 3
         ]

@@ -179,6 +179,17 @@ let mkMatchInt (n: term) (bodies: list term)
       )
     )
 
+
+let mkIfThenElse (condition bodyTrue bodyFalse: term)
+  : Tac term
+  = pack
+    ( Tv_Match condition 
+      [ Pat_Constant C_True,  bodyTrue
+      ; Pat_Constant C_False, bodyFalse
+      ]
+    )
+
+
 module DGT = Data.Serialize.Types
 let mkMatchInductive (s: DGT.inductiveSumup) (head: term) (bodies: list (list bv -> Tac term))
   : Tac term
