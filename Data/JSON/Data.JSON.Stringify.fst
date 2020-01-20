@@ -35,6 +35,8 @@ let printDecimalNumber (DecimalNumber digits cp exp)
 let rec repeat (n: nat) s: string =
   if n = 0 then "" else s ^ (repeat (n - 1) s)
 
+let stringify_string s = "\"" ^ escapeString s ^ "\""
+
 let rec stringify_helper jump tab (n: nat) value: Tot _ (decreases %[value]) =
   let h jump n (v: jsonValue) = stringify_helper jump tab n (admitP (v << value); v) in
   let s = repeat n tab in 
@@ -55,7 +57,7 @@ let rec stringify_helper jump tab (n: nat) value: Tot _ (decreases %[value]) =
       | [] -> ""
       | _  -> concat "," (map (h true (n + 1)) l) ^ "\n" ^ s
     ) ^ "]"
-  | JsonString s -> "\"" ^ escapeString s ^ "\""
+  | JsonString s -> stringify_string s
   | JsonNumber d -> printDecimalNumber d
   | JsonNull -> "null"
   | JsonBool b -> string_of_bool b

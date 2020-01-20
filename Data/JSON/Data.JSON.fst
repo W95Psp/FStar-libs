@@ -17,12 +17,15 @@ let nat_serialize_encode_chainable = nat_serialize_encode_chainable
 %splice[] (generateSerialize (`T.jsonValue))
 
 let jsonValue = T.jsonValue
+let stringify_string = S.stringify_string
 // let parse_not_native = C.parser
 // let stringify_not_native = S.stringify
 
-let stringify' (v: serialized) (spaces: string): string =
-  S.stringify (deserialize v) spaces
+// let 
 
-%splice[] (mk_native_version (`stringify') "stringify" [true;false] false)
+// let stringify' (v: serialized) (spaces: string): string =
+//   S.stringify (deserialize v) spaces
+
+%splice[] (mk_native_version (`S.stringify) "stringify" [true;false] false)
 %splice[] (mk_native_version (`C.parser) "parse" [false] true)
 

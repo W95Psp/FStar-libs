@@ -82,7 +82,7 @@ let mk_native_version (f: term) (nativeName: string) (args: list bool) (return: 
     set_sigelt_attrs [plugin_term] (pack_sigelt se)
   ; pack_sigelt se'
  ] in
- dump (term_to_string (quote ll));
+ // dump (term_to_string (quote ll));
  ll
 
 
