@@ -9,70 +9,116 @@ open MetaTools.Util
 module L = FStar.List.Tot
 
 
-unfold let browseFun s = bool -> (term -> Tac term) -> list bv -> list term_view_head -> term -> Tac (term * s)
+unfold let browseFun' s
+  = rebuildToplevel: (term -> Tac term)
+  -> boundedVariables: list bv
+  -> parents: list term_view_head
+  -> currentTerm: term
+  -> Tac (term * s)
+unfold let browseFun s
+  = beforeTransform: bool
+  -> browseFun' s
 
-let rec browse_term' (#s: Type0) [| monoid s |]
+// (beforeTransform: bool)  (rebuildToplevel: (term -> Tac term))  (boundedVariables: list bv)  (parents: list term_view_head)  (currentTerm: term)
+// beforeTransform rebuildToplevel boundedVariables parents currentTerm
+
+let onlyWhen (#s: Type0) [| monoid s |] start (f: browseFun' s)
+  : browseFun s
+  = fun beforeTransform rebuildToplevel boundedVariables parents currentTerm -> 
+    if beforeTransform = start
+    then f rebuildToplevel boundedVariables parents currentTerm
+    else currentTerm, mempty
+
+let readOnly (#s: Type0) [| monoid s |] (f: 
+    (term -> Tac term) -> list bv -> list term_view_head
+  -> term -> Tac s) = onlyWhen true (fun a b c d -> d, f a b c d)
+
+let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
   (f: browseFun s)
   (getTree: term -> Tac term)
   (variables: list bv)
   (parents': list term_view_head)
   (t: term)
   : Tac (term * s) =
-  let t, s0 = f true getTree variables parents' t in
+  let returns x = pack x, mempty #s in 
+  let bind #a #b = bindM #s #sMonoid #a #b in
+  t <-- f true getTree variables parents' t;
   let parents = term_head t::parents' in
-  let t, s1 = match inspect t with
+  let browse_bv (gt: bv -> term_view) vars flag bv = browse_bv f (fun v -> getTree (pack (gt v))) vars parents flag bv in
+  let browse_term'' (gt: _ -> Tac _) vars = browse_term' f (fun t -> getTree (pack (gt t))) vars parents' in
+  let browse_term' (gt: term -> Tot term_view) vars = browse_term' f (fun t -> getTree (pack (gt t))) vars parents' in
+  let browse_binder gt  vars flag b = browse_binder f (fun t -> getTree (pack (gt b))) vars parents flag b in
+  let browse_comp (gt: comp -> term_view) variables c // Tv_Arrow b
+    : Tac (comp * s)
+    = match inspect_comp c with
+    | C_Total ret decr -> 
+      let mk ret decr = gt (pack_comp (C_Total ret decr)) in
+      ret <-- browse_term'' (fun ret -> mk ret decr) variables ret;
+      decr <-- optmapS (browse_term' (fun decr -> mk ret (Some decr)) variables) decr;
+      pack_comp (C_Total ret decr), mempty
+    | C_Lemma pre post ->
+      let mk pre post = gt (pack_comp (C_Lemma pre post)) in
+      pre <-- browse_term'' (fun pre -> mk pre post) variables pre;
+      post <-- browse_term'' (fun post -> mk pre post) variables post;
+      pack_comp (C_Lemma pre post), mempty
+    | _ -> c, mempty
+  in
+  t <-- begin match inspect t with
   | Tv_Var bv ->
-      let bv, s0, _ = browse_bv f (fun bv -> pack (Tv_Var bv)) variables parents true bv in
-      pack (Tv_Var bv), s0
+      bv <-- focusFst (browse_bv Tv_Var variables true bv);
+      returns (Tv_Var bv)
   | Tv_BVar bv ->
-      let bv, s0, _ = browse_bv f (fun bv -> pack (Tv_BVar bv)) variables parents false bv in
-      pack (Tv_BVar bv), s0
+      bv <-- focusFst (browse_bv Tv_BVar variables false bv);
+      returns (Tv_BVar bv)
   | Tv_App t (arg, q) -> 
-      let t,  s0 = browse_term' f (fun t   -> getTree (pack (Tv_App t (arg, q)))) variables parents t in
-      let arg,s1 = browse_term' f (fun arg -> getTree (pack (Tv_App t (arg, q)))) variables parents arg in
-      pack (Tv_App t (arg, q)), mempty//s0 @@ s1
+      t <-- browse_term' (fun t -> Tv_App t (arg, q)) variables t;
+      arg <-- browse_term' (fun arg -> Tv_App t (arg, q)) variables arg;
+      returns (Tv_App t (arg, q))
   | Tv_Abs b body ->
-      let b, s0, variables
-        = browse_binder f (fun b -> getTree (pack (Tv_Abs b body))) variables parents false b in 
-        
-      let body, s1 = browse_term' f (fun body -> getTree (pack (Tv_Abs b body))) variables parents body in
-      pack (Tv_Abs b body), s0 <+> s1
+      r <-- browse_binder (fun b -> Tv_Abs b body) variables false b;
+      let b, variables = r in
+      body <-- browse_term' (fun body -> Tv_Abs b body) variables body;
+      returns (Tv_Abs b body)
   | Tv_Arrow  b c -> 
-      let b,s0,_ = browse_binder f (fun b -> getTree (pack (Tv_Arrow b c))) variables parents true b in
-      pack (Tv_Arrow b c), s0
+      b <-- focusFst (browse_binder (fun b -> Tv_Arrow b c) variables true b);
+      c <-- browse_comp (fun c -> Tv_Arrow b c) variables c;
+      pack (Tv_Arrow b c), mempty
   | Tv_Refine bv t ->
-      let bv,s0,variables = browse_bv f (fun bv -> pack (Tv_Refine bv t)) variables parents false bv in
-      let t, s1 = browse_term' f (fun t -> pack (Tv_Refine bv t)) variables parents t in
-      pack (Tv_Refine bv t), s0 <+> s1
+      r <-- browse_bv (fun bv -> Tv_Refine bv t) variables false bv;
+      let bv, variables = r in
+      t <-- browse_term' (fun t -> Tv_Refine bv t) variables t;
+      returns (Tv_Refine bv t)
   | Tv_Let r attrs bv t1 t2 -> 
-      let bv,s0,variables = browse_bv f 
-          (fun bv -> pack (Tv_Let r attrs bv t1 t2)) variables parents false bv in
-      let t1, s1 = browse_term' f
-          (fun t -> pack (Tv_Let r attrs bv t1 t2)) variables parents t1 in
-      let t2, s2 = browse_term' f
-          (fun t -> pack (Tv_Let r attrs bv t1 t2)) variables parents t2 in
-      pack (Tv_Let r attrs bv t1 t2), s1 <+> s2
+      res <-- browse_bv (fun bv -> Tv_Let r attrs bv t1 t2) variables false bv;
+      let bv, variables = res in
+      t1 <-- browse_term' (fun t1 -> Tv_Let r attrs bv t1 t2) variables t1;
+      t2 <-- browse_term' (fun t2 -> Tv_Let r attrs bv t1 t2) variables t2;
+      returns (Tv_Let r attrs bv t1 t2)
   | Tv_Match t branches -> 
-      let t, s0 = browse_term' f (fun t -> pack (Tv_Match t branches)) variables parents t in
+      t <-- browse_term' (fun t -> Tv_Match t branches) variables t;
       let brs = withIndexes branches in
       let raw = map (
         fun (i, (pattern, term)) ->
-          let getTree term: Tac _
-            = pack (Tv_Match t (replaceAt branches i (pattern, term))) in
           let variables = bvs_of_pattern pattern @ variables in
           let term, s0
-            = browse_term' f getTree variables parents term
+            = browse_term' (fun term -> Tv_Match t (replaceAt branches i (pattern, term))) variables term
           in (pattern, term), s0
         ) brs
       in
-      pack (Tv_Match t (L.map fst raw))
-      , s0 <+> mconcat (L.map snd raw)
-  // | Tv_AscribedT _ _ _ -> "Tv_AscribedT" //TODO!
-  // | Tv_AscribedC _ _ _ -> "Tv_AscribedC" //TODO!
-  | _ -> t, mempty
-  in
-  let t, s2 = f false getTree variables parents' t in
-  t, s0 <+> s1 <+> s2
+      pack (Tv_Match t (L.map fst raw)), mconcat (L.map snd raw)
+  | Tv_AscribedT e t tac ->
+    e <-- browse_term' (fun e -> Tv_AscribedT e t tac) variables e;
+    t <-- browse_term' (fun t -> Tv_AscribedT e t tac) variables t;
+    tac <-- optmapS (browse_term' (fun tac -> Tv_AscribedT e t (Some tac)) variables) tac;
+    returns (Tv_AscribedT e t tac)
+  | Tv_AscribedC e c tac ->
+    e <-- browse_term' (fun e -> Tv_AscribedC e c tac) variables e;
+    c <-- browse_comp  (fun c -> Tv_AscribedC e c tac) variables c;
+    tac <-- optmapS (browse_term' (fun tac -> Tv_AscribedC e c (Some tac)) variables) tac;
+    returns (Tv_AscribedC e c tac)
+  | _ -> t, mempty end;
+  t <-- f false getTree variables parents' t;
+  t, mempty
 and browse_bv (#s: Type0) [| monoid s |]
   (f: browseFun s)
   (getTree: bv -> Tac term)
@@ -80,7 +126,7 @@ and browse_bv (#s: Type0) [| monoid s |]
   (parents: list term_view_head)
   (shallow: bool)
   (v: bv)
-  : Tac (bv * s * list bv)
+  : Tac ((bv * list bv) * s)
   = let variables = v::variables in
     let bv = inspect_bv v in
     let pack' sort = pack_bv ({bv with bv_sort=sort}) in
@@ -89,7 +135,7 @@ and browse_bv (#s: Type0) [| monoid s |]
       = if shallow
         then bv.bv_sort, mempty
         else browse_term' #s f getTree variables parents bv.bv_sort in
-    pack' bv_sort, s0, variables
+    (pack' bv_sort, variables), s0
 and browse_binder (#s: Type0) [| monoid s |]
   (f: browseFun s)
   (getTree: binder -> Tac term)
@@ -97,12 +143,17 @@ and browse_binder (#s: Type0) [| monoid s |]
   (parents: list term_view_head)
   (shallow: bool)
   (b: binder)
-  : Tac (binder * s * list bv)
+  : Tac ((binder * list bv) * s)
   = let v, aqualv = inspect_binder b in
-    let bv, s, variables = browse_bv #s f (fun bv -> getTree (pack_binder bv aqualv)) variables parents shallow v in
-    pack_binder bv aqualv, s, variables
+    let (bv, variables), s = browse_bv #s f (fun bv -> getTree (pack_binder bv aqualv)) variables parents shallow v in
+    (pack_binder bv aqualv, variables), s
 
+
+
+// browseFun s = bool -> (term -> Tac term) -> list bv -> list term_view_head -> term -> Tac (term * s)
 let browse_term (#s: Type0) [| monoid s |]
   (f: browseFun s)
   (t: term)
   : Tac (term * s) = browse_term' f id [] [] t
+
+
