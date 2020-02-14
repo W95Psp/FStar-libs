@@ -11,11 +11,6 @@ module L = FStar.List.Tot
 
 
 // browseFun s = bool -> (term -> Tac term) -> list bv -> list term_view_head -> term -> Tac (term * s)
-let browse_term (#s: Type0) [| monoid s |]
-  (f: browseFun s)
-  (t: term)
-  : Tac (term * s) = browse_term' f id [] [] t
-
 
 let rec names_of_pattern (p: pattern): list name =
   match p with
@@ -55,7 +50,7 @@ let fvsOfTerm (t: term)
   : Tac (list name)
   = snd (browse_term #_ #lsetIsMonoid begin
     fun beforeTransform _ _ _ currentTerm
-    -> currentTerm,
+    -> (currentTerm, id_tac),
       ( if beforeTransform
         then fvsOfTerm_helper currentTerm
         else [] )
@@ -114,6 +109,8 @@ let fv_dependencies_of (filterNames: name -> bool) (t: term)
   : Tac graph
   = let deps = L.filter (negPred filterNames) (fvsOfTerm t) in 
     let g = g_set [] rootName deps in
+    // something is wrong with g_resolve, I need to call it twice...
+    let g = g_resolve filterNames g in
     let g = g_sort (g_resolve filterNames g) in
     g
 

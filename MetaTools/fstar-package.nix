@@ -1,8 +1,14 @@
+let
+  pkgs = import <nixpkgs> {};
+in
 { name = "MetaTools";
+  force-fstar-version = pkgs.fstar-tc;
   sources-directory = ./.;
   sources = [
     "MetaTools.BrowseTerm"
     "MetaTools.Compiled"
+    "MetaTools.Erase"
+    "MetaTools.NamesOfTerm"
     "MetaTools.Util"
   ];
   tactic-module = "MetaTools.Compiled";
@@ -10,7 +16,7 @@
   dependencies =
     with (import ../.); [
       Control
-      Data.Serialize
+      # Data.Serialize
     ];
   compile = [];
 }

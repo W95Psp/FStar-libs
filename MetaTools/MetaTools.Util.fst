@@ -51,6 +51,26 @@ let term_head t : Tac term_view_head =
   | Tv_AscribedT _ _ _ -> Th_AscribedT
   | Tv_AscribedC _ _ _ -> Th_AscribedC
 
+let term_head_to_string x = 
+  match x with
+  | Th_Var       -> "Var"
+  | Th_BVar      -> "BVar"
+  | Th_FVar      -> "FVar"
+  | Th_App       -> "App"
+  | Th_Abs       -> "Abs"
+  | Th_Arrow     -> "Arrow"
+  | Th_Type      -> "Type"
+  | Th_Refine    -> "Refine"
+  | Th_Const     -> "Const"
+  | Th_Uvar      -> "Uvar"
+  | Th_Let       -> "Let"
+  | Th_Match     -> "Match"
+  | Th_AscribedT -> "AscribedT"
+  | Th_AscribedC -> "AscribedC"
+  | Th_Unknown   -> "Unknown"
+
+let term_heads_to_string l
+  = String.concat " " (L.map term_head_to_string l)
 
 let sglet_of_name (name: name): Tac (option (typ * term)) 
   = match lookup_typ (top_env ()) name with
@@ -96,39 +116,52 @@ let rec names_of_pattern (p: pattern): list name =
 open Control.Monoid
 open FStar.Tactics.Typeclasses
 
-let bindM (#s: Type0) [| monoid s |] #a #b (x: a * s) (f: a -> Tac (b * s)): Tac (b * s) =
+unfold let bindM (#s: Type0) [| monoid s |] #a #b (x: a * s) (f: a -> Tac (b * s)): Tac (b * s) =
     let result, s0 = x in
     let result, s1 = f result in
     result, s0 <+> s1
 
-let optmap #a #b (f: a -> Tac b) (x: option a): Tac (option b)
+
+// let f (): Tac (int * list int) =
+//   let bind = bindM #(list int) in
+//   x <-- "hey", [2];
+//   x <-- "hey", [6];
+//   x <-- (term_to_string (quote "hey")), [1];
+//   x <-- "hey", [8];
+//   9, []
+
+// let xxx: int * (list int) = _ by (
+//   let x = f () in
+//   exact (quote x)
+// )
+
+unfold let optmap #a #b (f: a -> Tac b) (x: option a): Tac (option b)
   = match x with
   | Some v -> Some (f v)
   | None   -> None
 
-let optmapS (#s: Type0) [| monoid s |] #a #b (f: a -> Tac (b * s)) (x: option a): Tac (option b * s)
+unfold let optmapS (#s: Type0) [| monoid s |] #a #b (f: a -> Tac (b * s)) (x: option a): Tac (option b * s)
   = match optmap f x with
   | Some (v,s0) -> Some v, s0 
   | None        -> None  , mempty
   
-let focusFst ((a,b),c) = a,c
+unfold let focusFst ((a,b),c) = a,c
 
 
+// type sg_Let' =
+//        (r:bool)
+//   * (  (fv:fv)
+//   *  ( (us:list string)
+//   *   ((typ:typ)
+//   *    (def:term)
+//     )))
 
-type sg_Let' =
-       (r:bool)
-  * (  (fv:fv)
-  *  ( (us:list string)
-  *   ((typ:typ)
-  *    (def:term)
-    )))
+// let dummy_range = range_of "DUMMY_RANGE"
 
-let dummy_range = range_of "DUMMY_RANGE"
-
-let sg_let'_to_Sg_Let
-  (sglet: sg_Let')
-  = let r, (fv, (us, (typ, def))) = sglet in
-    Sg_Let r fv (L.map (fun x -> dummy_range, x) us) typ def
+// let sg_let'_to_Sg_Let
+//   (sglet: sg_Let')
+//   = let r, (fv, (us, (typ, def))) = sglet in
+//     Sg_Let r fv (L.map (fun x -> dummy_range, x) us) typ def
 
 
 
