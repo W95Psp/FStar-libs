@@ -46,9 +46,10 @@ module L = FStar.List.Tot
 // %splice[normalize_inside_matches] (mk_native_version (`normalize_inside_matches') "normalize_inside_matches" [true] false)
 
 
+
 [@plugin]
 let erase_term_and_defs (def: term)
- : Tac (list (name * option (term * term)))
+ : Tac (list ((n: name {Cons? n}) * option (term * term)))
  = erase_term_and_defs def
 
 

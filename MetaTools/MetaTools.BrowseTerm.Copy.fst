@@ -1,4 +1,4 @@
-module MetaTools.BrowseTerm
+module MetaTools.BrowseTerm.Copy
 
 open FStar.Tactics
 open Control.Monoid
@@ -13,7 +13,6 @@ unfold let browseFun' s
   = rebuildToplevel: (term -> Tac term)
   -> boundedVariables: list bv
   -> parents: list term_view_head
-  -> isTypeLevel: bool
   -> currentTerm: term
   -> Tac ((   newTerm: term
            * endStateTransform: (term -> Tac term)
@@ -29,21 +28,20 @@ let id_tac (x: 'a): Tac 'a = x
 
 let onlyWhen (#s: Type0) [| monoid s |] start (f: browseFun' s)
   : browseFun s
-  = fun beforeTransform rebuildToplevel boundedVariables parents isTypeLevel currentTerm -> 
+  = fun beforeTransform rebuildToplevel boundedVariables parents currentTerm -> 
     if beforeTransform = start
-    then f rebuildToplevel boundedVariables parents isTypeLevel currentTerm
+    then f rebuildToplevel boundedVariables parents currentTerm
     else (currentTerm, id_tac), mempty
 
 let readOnly (#s: Type0) [| monoid s |] (f: 
     (term -> Tac term) -> list bv -> list term_view_head
-  -> term -> Tac s) = onlyWhen true (fun a b c _ d -> (d, id_tac), f a b c d)
+  -> term -> Tac s) = onlyWhen true (fun a b c d -> (d, id_tac), f a b c d)
 
 let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
   (f: browseFun s)
   (getTree: term -> Tac term)
   (variables: list bv)
   (parents': list term_view_head)
-  (typeLevel: bool)
   (t: term)
   : Tac (term * s) =
   let getTree tt
@@ -60,12 +58,11 @@ let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
   in
   let returns x = pack x, mempty #s #sMonoid in 
   let bind #a #b = bindM #s #sMonoid #a #b in
-  bundle <-- f true getTree variables parents' typeLevel t;
+  bundle <-- f true getTree variables parents' t;
   let t, final_term_transform0 = bundle in
   let parents = term_head t::parents' in
   let browse_bv (gt: bv -> term_view) vars flag bv = browse_bv #s #sMonoid f (let f v: Tac _ = getTree (pack (gt v)) in f) vars parents flag bv in
   let browse_term'' (gt: _ -> Tac _) vars = browse_term'  #s #sMonoid f (let f t: Tac _ = getTree (pack (gt t)) in f) vars parents' in
-  // let browse_term_dbg vars = browse_term' #s #sMonoid f (let f _: Tac _ = getTree t in f) vars parents' in
   let browse_term' (gt: term -> Tot term_view) vars = browse_term' #s #sMonoid f (let f t: Tac _ = getTree (pack (gt t)) in f) vars parents' in
   let browse_binder gt  vars flag b = browse_binder #s #sMonoid f (let f t: Tac _ = getTree (pack (gt b)) in f) vars parents flag b in
   let browse_comp (gt: comp -> term_view) variables c // Tv_Arrow b
@@ -73,13 +70,13 @@ let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
     = match inspect_comp c with
     | C_Total ret decr -> 
       let mk ret decr = gt (pack_comp (C_Total ret decr)) in
-      ret <-- browse_term'' (fun ret -> mk ret decr) variables true ret;
-      decr <-- optmapS (browse_term' (fun decr -> mk ret (Some decr)) variables true) decr;
+      ret <-- browse_term'' (fun ret -> mk ret decr) variables ret;
+      decr <-- optmapS (browse_term' (fun decr -> mk ret (Some decr)) variables) decr;
       pack_comp (C_Total ret decr), mempty #s #sMonoid
     | C_Lemma pre post ->
       let mk pre post = gt (pack_comp (C_Lemma pre post)) in
-      pre <-- browse_term'' (fun pre -> mk pre post) variables true pre;
-      post <-- browse_term'' (fun post -> mk pre post) variables true post;
+      pre <-- browse_term'' (fun pre -> mk pre post) variables pre;
+      post <-- browse_term'' (fun post -> mk pre post) variables post;
       pack_comp (C_Lemma pre post), mempty #s #sMonoid
     | _ -> c, mempty #s #sMonoid
   in
@@ -90,54 +87,54 @@ let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
   | Tv_BVar bv ->
       bv <-- focusFst (browse_bv Tv_BVar variables false bv);
       returns (Tv_BVar bv)
-  | Tv_App fn1 (arg1, q) -> 
-      fn2 <-- browse_term' (fun fn2 -> Tv_App fn2 (arg1, q)) variables typeLevel fn1;
-      arg2 <-- browse_term' (fun arg2 -> Tv_App fn1 (arg2, q)) variables typeLevel arg1;
-      returns (Tv_App fn2 (arg2, q))
-  | Tv_Abs b1 body1 ->
-      r <-- browse_binder (fun b2 -> Tv_Abs b2 body1) variables false b1;
-      let b2, variables = r in
-      body2 <-- browse_term' (fun body2 -> Tv_Abs b1 body2) variables typeLevel body1;
-      returns (Tv_Abs b2 body2)
-  | Tv_Arrow  b1 c1 -> 
-      b2 <-- focusFst (browse_binder (fun b2 -> Tv_Arrow b2 c1) variables true b1);
-      c2 <-- browse_comp (fun c2 -> Tv_Arrow b1 c2) variables c1;
-      pack (Tv_Arrow b2 c2), mempty #s #sMonoid
-  | Tv_Refine bv1 t1 ->
-      r <-- browse_bv (fun bv2 -> Tv_Refine bv2 t1) variables false bv1;
-      let bv2, variables = r in
-      t2 <-- browse_term' (fun t2 -> Tv_Refine bv1 t2) variables typeLevel t1;
-      returns (Tv_Refine bv2 t2)
-  | Tv_Let r attrs bv1 def1 body1 -> 
-      res <-- browse_bv (fun bv2 -> Tv_Let r attrs bv2 def1 body1) variables false bv1;
-      let bv2, variables = res in
-      def2 <-- browse_term' (fun def2 -> Tv_Let r attrs bv1 def2 body1) variables typeLevel def1;
-      body2 <-- browse_term' (fun body2 -> Tv_Let r attrs bv1 def1 body2) variables typeLevel body1;
-      returns (Tv_Let r attrs bv2 def2 body2)
-  | Tv_Match t1 branches -> 
-      t2 <-- browse_term' (fun t2 -> Tv_Match t2 branches) variables typeLevel t1;
+  | Tv_App t (arg, q) -> 
+      t <-- browse_term' (fun t -> Tv_App t (arg, q)) variables t;
+      arg <-- browse_term' (fun arg -> Tv_App t (arg, q)) variables arg;
+      returns (Tv_App t (arg, q))
+  | Tv_Abs b body ->
+      r <-- browse_binder (fun b -> Tv_Abs b body) variables false b;
+      let b, variables = r in
+      body <-- browse_term' (fun body -> Tv_Abs b body) variables body;
+      returns (Tv_Abs b body)
+  | Tv_Arrow  b c -> 
+      b <-- focusFst (browse_binder (fun b -> Tv_Arrow b c) variables true b);
+      c <-- browse_comp (fun c -> Tv_Arrow b c) variables c;
+      pack (Tv_Arrow b c), mempty #s #sMonoid
+  | Tv_Refine bv t ->
+      r <-- browse_bv (fun bv -> Tv_Refine bv t) variables false bv;
+      let bv, variables = r in
+      t <-- browse_term' (fun t -> Tv_Refine bv t) variables t;
+      returns (Tv_Refine bv t)
+  | Tv_Let r attrs bv t1 t2 -> 
+      res <-- browse_bv (fun bv -> Tv_Let r attrs bv t1 t2) variables false bv;
+      let bv, variables = res in
+      t1 <-- browse_term' (fun t1 -> Tv_Let r attrs bv t1 t2) variables t1;
+      t2 <-- browse_term' (fun t2 -> Tv_Let r attrs bv t1 t2) variables t2;
+      returns (Tv_Let r attrs bv t1 t2)
+  | Tv_Match t branches -> 
+      t <-- browse_term' (fun t -> Tv_Match t branches) variables t;
       let brs = withIndexes branches in
       let raw = map (
         fun (i, (pattern, term)) ->
           let variables = bvs_of_pattern pattern @ variables in
           let term, s0
-            = browse_term' (fun term -> Tv_Match t1 (replaceAt branches i (pattern, term))) variables typeLevel term
+            = browse_term' (fun term -> Tv_Match t (replaceAt branches i (pattern, term))) variables term
           in (pattern, term), s0
         ) brs
       in
-      pack (Tv_Match t2 (L.map fst raw)), (mconcat #s #sMonoid) (L.map snd raw)
-  | Tv_AscribedT e1 t1 tac1 ->
-    e2 <-- browse_term' (fun e2 -> Tv_AscribedT e2 t1 tac1) variables typeLevel e1;
-    t2 <-- browse_term' (fun t2 -> Tv_AscribedT e1 t2 tac1) variables typeLevel t1;
-    tac2 <-- optmapS (browse_term' (fun tac2 -> Tv_AscribedT e1 t1 (Some tac2)) variables typeLevel) tac1;
-    returns (Tv_AscribedT e2 t2 tac2)
-  | Tv_AscribedC e1 c1 tac1 ->
-    e2 <-- browse_term' (fun e2 -> Tv_AscribedC e2 c1 tac1) variables typeLevel e1;
-    c2 <-- browse_comp  (fun c2 -> Tv_AscribedC e1 c2 tac1) variables c1;
-    tac2 <-- optmapS (browse_term' (fun tac2 -> Tv_AscribedC e1 c1 (Some tac2)) variables typeLevel) tac1;
-    returns (Tv_AscribedC e2 c2 tac2)
+      pack (Tv_Match t (L.map fst raw)), (mconcat #s #sMonoid) (L.map snd raw)
+  | Tv_AscribedT e t tac ->
+    e <-- browse_term' (fun e -> Tv_AscribedT e t tac) variables e;
+    t <-- browse_term' (fun t -> Tv_AscribedT e t tac) variables t;
+    tac <-- optmapS (browse_term' (fun tac -> Tv_AscribedT e t (Some tac)) variables) tac;
+    returns (Tv_AscribedT e t tac)
+  | Tv_AscribedC e c tac ->
+    e <-- browse_term' (fun e -> Tv_AscribedC e c tac) variables e;
+    c <-- browse_comp  (fun c -> Tv_AscribedC e c tac) variables c;
+    tac <-- optmapS (browse_term' (fun tac -> Tv_AscribedC e c (Some tac)) variables) tac;
+    returns (Tv_AscribedC e c tac)
   | _ -> t, mempty #s #sMonoid end;
-  bundle <-- f false getTree variables parents' typeLevel t;
+  bundle <-- f false getTree variables parents' t;
   let t, final_term_transform1 = bundle in
   let finish (): Tac _
     = final_term_transform1 (final_term_transform0 t)
@@ -155,12 +152,10 @@ and browse_bv (#s: Type0) [| sMonoid: monoid s |]
     let bv = inspect_bv v in
     let pack' sort = pack_bv ({bv with bv_sort=sort}) in
     let getTree sort = getTree (pack' sort) in
-    let bv_sort = bv.bv_sort in
-    // let s0 = mempty in
     let bv_sort, s0
       = if shallow
-        then bv_sort, mempty #s #sMonoid
-        else browse_term' #s #sMonoid f getTree variables parents true bv_sort in
+        then bv.bv_sort, mempty #s #sMonoid
+        else browse_term' #s #sMonoid f getTree variables parents bv.bv_sort in
     (pack' bv_sort, variables), s0
 and browse_binder (#s: Type0) [| sMonoid: monoid s |]
   (f: browseFun s)
@@ -170,17 +165,16 @@ and browse_binder (#s: Type0) [| sMonoid: monoid s |]
   (shallow: bool)
   (b: binder)
   : Tac ((binder * list bv) * s)
-  = let bv, aqualv = inspect_binder b in
-    let (bv, variables), s0 = browse_bv #s #sMonoid f (fun bv -> getTree (pack_binder bv aqualv)) variables parents shallow bv in
-    (pack_binder bv aqualv, variables), s0
+  = let v, aqualv = inspect_binder b in
+    let (bv, variables), s = browse_bv #s #sMonoid f (fun bv -> getTree (pack_binder bv aqualv)) variables parents shallow v in
+    (pack_binder bv aqualv, variables), s
 
 
 
 // browseFun s = bool -> (term -> Tac term) -> list bv -> list term_view_head -> term -> Tac (term * s)
 let browse_term (#s: Type0) [| monoid s |]
   (f: browseFun s)
-  (isTypeLevel: bool)
   (t: term)
-  : Tac (term * s) = browse_term' f (fun x -> x) [] [] isTypeLevel t
+  : Tac (term * s) = browse_term' f (fun x -> x) [] [] t
 
 

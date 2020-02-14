@@ -49,15 +49,26 @@ let lsetIsMonoid (#a: eqtype) : monoid (list a) =
 let fvsOfTerm (t: term)
   : Tac (list name)
   = snd (browse_term #_ #lsetIsMonoid begin
-    fun beforeTransform _ _ _ currentTerm
+    fun beforeTransform _ _ _ _ currentTerm
     -> (currentTerm, id_tac),
       ( if beforeTransform
         then fvsOfTerm_helper currentTerm
         else [] )
-  end t)
-
+  end false t)
 
 unfold let graph = list (name * list name) 
+
+let list_to_string (l: list string)
+  = "[" ^ String.concat "; " l ^ "]"
+let name_to_string' (n: name)
+  = list_to_string (L.map (fun s -> "\""^s^"\"") n)
+let g_toString' (g: graph): string =
+  list_to_string begin
+  L.map (fun (n, l) ->
+      name_to_string' n ^
+      list_to_string (L.map name_to_string' l)
+  ) g end
+
 let g_get (g: graph) k = L.find (fun (n, _) -> n = k) g
 let g_mem (g: graph) k = Some? (g_get g k)
 let g_rm (g: graph) k: graph =
@@ -67,6 +78,16 @@ let g_values (g: graph): list name =
   mconcat #_ #lsetIsMonoid (L.map snd g)
 
 unfold let negPred f x = false = f x 
+
+let name_to_string = String.concat "."
+
+let g_toString (g: graph): string =
+  String.concat "\n\n" begin
+  L.map (fun (n, l) ->
+      "# " ^ name_to_string n
+    ^ "\n"
+    ^ String.concat "\n" (L.map (fun nn -> " - " ^ name_to_string nn) l)
+  ) g end
 
 let g_get_unexplored_names (g: graph): list name
   = let vals = g_values g in
@@ -95,13 +116,31 @@ let rec g_resolve (filterNames: name -> bool) (g: graph): Tac graph
 let g_sort_helper (a b: name * list name)
   = let (a, a_deps), (b, b_deps) = a, b in
     if L.mem a b_deps
-    then  1
+    then -1
     else begin
       if L.mem b a_deps
-      then -1
+      then 1
       else 0
     end
 let g_sort g = L.sortWith g_sort_helper g
+
+let g_parse (g: string): graph
+   = let h c = String.split [c] in 
+    L.map (fun s -> match L.map (h '.') (h ' ' s) with
+    | hd::tl -> hd, tl
+    | _ -> ["???"], []
+    ) (L.filter (fun x -> (x = "") = false) (h '\n' g))
+
+// let e = g_parse "
+// X.d X.e
+// X.b X.c X.e
+// X.c X.d X.e
+// X.e
+// X.a X.b X.c
+// "
+
+// let gg = g_sort e
+
 
 let rootName = ["{root}"]
 
