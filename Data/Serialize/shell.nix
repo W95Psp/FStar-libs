@@ -1,1 +1,1 @@
-((import <nixpkgs> {}).fstar-package-manager (import ./fstar-package.nix)).shell
+(import <nixpkgs> {}).fstar-package-manager.shell (import ./fstar-package.nix)

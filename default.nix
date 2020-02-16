@@ -13,4 +13,5 @@ These are packed into sort of packages using https://github.com/W95Psp/fstar-nix
   MetaTools = import ./MetaTools;
   Control = import ./Control;
   FStar-Tactics-JS = import ./FStar-Tactics-JS;
+  Debug = import ./Debug;
 }

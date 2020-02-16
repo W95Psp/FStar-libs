@@ -1,1 +1,1 @@
-((import <nixpkgs> {}).fstar-package-manager (import ./fstar-package.nix)).build
+(import <nixpkgs> {}).fstar-package-manager.build (import ./fstar-package.nix)

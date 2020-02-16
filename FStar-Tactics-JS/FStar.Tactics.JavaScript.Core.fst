@@ -6,7 +6,7 @@ module S = FStar.String
 module L = FStar.List.Tot
 
 module JSON = Data.JSON
-open FStar.Tactics.JavaScript.Helpers
+open FStar.Tactics.JavaScript.Helpers 
 
 // type nativeConstructor
 let ncMatch = fst//: string 
@@ -27,19 +27,19 @@ let fv_to_js (config: jsConfig) (known: list string) (fv: fv): Tac string =
   if isConstructor
   then 
     begin
-      dump ("config.funs ?'"^str_fstar^"' --> " ^ S.concat "|" (L.map fst config.funs));
+      // dump ("config.funs ?'"^str_fstar^"' --> " ^ S.concat "|" (L.map fst config.funs));
       if Some? (L.find (fun (x, _) -> x = str_fstar) config.nativeConstructors)
        || Some? (L.find (fun (x, _) -> x = str_fstar) config.funs)
        || L.mem str_fstar known
-      then str
+      then makeJsName str
       else
       ( match getArityOfConstructor name with
       | Some n -> 
-        "_MkMK_(\"" ^ str ^ "\"," ^ string_of_int n ^ ")"
+        "_MkMK_(\"" ^ makeJsName str ^ "\"," ^ string_of_int n ^ ")"
       | None -> fail "getArityOfConstructor failed"
       )
     end//"(" ^  ^ ")"
-  else str
+  else makeJsName str
 
 let rec term_to_js (known: list string) (config: jsConfig) t : Tac _ =
   match inspect t with
@@ -88,7 +88,7 @@ and pat_to_js (pat: pattern): Tac string
   | Pat_Dot_Term bv _ -> "{bv: \"" ^ bv_to_js bv ^ "\"}"
   | Pat_Cons cons pats -> 
     let pats = L.filter (fun (_, x) -> x = false) pats in
-    let cons = "\"" ^ String.concat "_" (inspect_fv cons) ^ "\"" in
+    let cons = "\"" ^ makeJsName (String.concat "_" (inspect_fv cons)) ^ "\"" in
     "[" ^ String.concat ", " (cons::map (fun (p, _) -> pat_to_js p) pats) ^ "]"
   | Pat_Constant v -> printConst v
 and match_to_js (known: list string) (config: jsConfig) (expr: term) (branches: list branch): Tac string =
@@ -137,7 +137,7 @@ let jsDefOfStr (name: string) (config: jsConfig): Tac jsConfig
 
 
 let printJsDef (name, def) =
-  "\nlet " ^ dotTo_ name ^ " = " ^ def ^ ";\n"
+  "\nlet " ^ makeJsName (dotTo_ name) ^ " = " ^ def ^ ";\n"
 
 let print' (config: jsConfig): Tac string
   = let { nativeConstructors; runtime; funs} = config in

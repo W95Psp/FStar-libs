@@ -1,17 +1,16 @@
+/// This module collects free variable names contained in a term 
 module MetaTools.NamesOfTerm
 
 open FStar.Tactics
 open Control.Monoid
-
 open FStar.Tactics.Typeclasses
 open MetaTools.Util
 open MetaTools.BrowseTerm
-
 module L = FStar.List.Tot
 
-
-// browseFun s = bool -> (term -> Tac term) -> list bv -> list term_view_head -> term -> Tac (term * s)
-
+/// A pattern contains `Pat_Cons` expressions
+/// they contains constructor names
+/// `names_of_pattern` recursively go through these patterns and collect names
 let rec names_of_pattern (p: pattern): list name =
   match p with
   | Pat_Cons   x l ->
@@ -20,6 +19,7 @@ let rec names_of_pattern (p: pattern): list name =
     L.fold_left (@) [inspect_fv x] l
   | _ -> []
 
+/// `(@!)` is a list concatener that avoids duplicates
 let rec (@!) (#a: eqtype) (l1 l2: list a)
   : Tot (list a) (decreases l2) = 
   match l2 with
@@ -28,6 +28,7 @@ let rec (@!) (#a: eqtype) (l1 l2: list a)
             then l1 @! tl
             else (hd::l1) @! tl
 
+/// `fvsOfTerm_helper` collects immediate names of a term (no recursion here)
 let fvsOfTerm_helper (t: term_view)
   : Tac (list name)
   = match t with
@@ -40,12 +41,13 @@ let fvsOfTerm_helper (t: term_view)
 
 open Control.Semigroup
 
+/// Defines alternatives semigroup and monoid for list, relying on `(@!)` 
 let lsetSemiGroup (#a: eqtype) : semigroup (list a)
   = mkSemigroup _ (@!)
-
 let lsetIsMonoid (#a: eqtype) : monoid (list a) = 
   mkMonoid _ #lsetSemiGroup []
 
+/// `fvsOfTerm` collects names of a term
 let fvsOfTerm (t: term)
   : Tac (list name)
   = snd (browse_term #_ #lsetIsMonoid begin
@@ -56,19 +58,12 @@ let fvsOfTerm (t: term)
         else [] )
   end false t)
 
+/// `fvsOfTerm (`(f 1 + 4))` will basically yeiled `[f, (+)]`
+/// However, one might want to get the full dependency graph of all subterms of a term
+/// This is what is done here
+///
+/// `graph` maps term names to lists of dependencies names  
 unfold let graph = list (name * list name) 
-
-let list_to_string (l: list string)
-  = "[" ^ String.concat "; " l ^ "]"
-let name_to_string' (n: name)
-  = list_to_string (L.map (fun s -> "\""^s^"\"") n)
-let g_toString' (g: graph): string =
-  list_to_string begin
-  L.map (fun (n, l) ->
-      name_to_string' n ^
-      list_to_string (L.map name_to_string' l)
-  ) g end
-
 let g_get (g: graph) k = L.find (fun (n, _) -> n = k) g
 let g_mem (g: graph) k = Some? (g_get g k)
 let g_rm (g: graph) k: graph =
@@ -79,24 +74,17 @@ let g_values (g: graph): list name =
 
 unfold let negPred f x = false = f x 
 
-let name_to_string = String.concat "."
-
-let g_toString (g: graph): string =
-  String.concat "\n\n" begin
-  L.map (fun (n, l) ->
-      "# " ^ name_to_string n
-    ^ "\n"
-    ^ String.concat "\n" (L.map (fun nn -> " - " ^ name_to_string nn) l)
-  ) g end
-
+/// `g_get_unexplored_names` collect the names that have not been looked up yey
 let g_get_unexplored_names (g: graph): list name
   = let vals = g_values g in
     L.filter (negPred (g_mem g)) vals
 
+/// `isGraphComplete` holds when every term dependencies of `g` have been looked up
 let isGraphComplete (g: graph): bool
   = Nil? (g_get_unexplored_names g)
 
-let g_resolve_once (filterNames: name -> bool) (g: graph): Tac (graph * done: bool)
+/// `g_resolve_once` looks up the unexplored names of `g` and update `g`
+let g_resolve_once (filterNames: name -> bool) (g: graph): Tac (graph * continue: bool)
   = let l = g_get_unexplored_names g in
     fold_left #graph begin
       fun g n -> 
@@ -105,14 +93,16 @@ let g_resolve_once (filterNames: name -> bool) (g: graph): Tac (graph * done: bo
           fvsOfTerm typ @! fvsOfTerm def
         | None            -> [] in
         g_set g n (L.filter (negPred filterNames) deps)        
-    end g l, Nil? l
+    end g l, Cons? l
 
+/// `g_resolve` is `g_resolve_once`'s fixpoint
 let rec g_resolve (filterNames: name -> bool) (g: graph): Tac graph
   = let g, continue = g_resolve_once filterNames g in
     if continue
     then g_resolve filterNames g
     else g
 
+/// `g_sort_helper` compares dependencies
 let g_sort_helper (a b: name * list name)
   = let (a, a_deps), (b, b_deps) = a, b in
     if L.mem a b_deps
@@ -122,28 +112,13 @@ let g_sort_helper (a b: name * list name)
       then 1
       else 0
     end
+/// `g_sort` makes `g` such that if `T1` depends on `T2`, `T2` appears first in `g` 
 let g_sort g = L.sortWith g_sort_helper g
 
-let g_parse (g: string): graph
-   = let h c = String.split [c] in 
-    L.map (fun s -> match L.map (h '.') (h ' ' s) with
-    | hd::tl -> hd, tl
-    | _ -> ["???"], []
-    ) (L.filter (fun x -> (x = "") = false) (h '\n' g))
-
-// let e = g_parse "
-// X.d X.e
-// X.b X.c X.e
-// X.c X.d X.e
-// X.e
-// X.a X.b X.c
-// "
-
-// let gg = g_sort e
-
-
+/// `rootName` is a dummy name for the anonymous root term we analyse
 let rootName = ["{root}"]
 
+/// Given a fitlering function, `fv_dependencies_of` computes the dependency graph of a term
 let fv_dependencies_of (filterNames: name -> bool) (t: term)
   : Tac graph
   = let deps = L.filter (negPred filterNames) (fvsOfTerm t) in 
@@ -173,3 +148,35 @@ let blacklist_ulib (n: name) =
   | "Prims"::_ -> true
   | _ -> false
 
+
+
+
+
+
+
+/// Rest of this file are parser and printers for `graph`s
+let g_parse (g: string): graph
+   = let h c = String.split [c] in 
+    L.map (fun s -> match L.map (h '.') (h ' ' s) with
+    | hd::tl -> hd, tl
+    | _ -> ["???"], []
+    ) (L.filter (fun x -> (x = "") = false) (h '\n' g))
+    
+let list_to_string (l: list string)
+  = "[" ^ String.concat "; " l ^ "]"
+let name_to_string' (n: name)
+  = list_to_string (L.map (fun s -> "\""^s^"\"") n)
+let g_toString' (g: graph): string =
+  list_to_string begin
+  L.map (fun (n, l) ->
+      name_to_string' n ^
+      list_to_string (L.map name_to_string' l)
+  ) g end
+let name_to_string = String.concat "."
+let g_toString (g: graph): string =
+  String.concat "\n\n" begin
+  L.map (fun (n, l) ->
+      "# " ^ name_to_string n
+    ^ "\n"
+    ^ String.concat "\n" (L.map (fun nn -> " - " ^ name_to_string nn) l)
+  ) g end

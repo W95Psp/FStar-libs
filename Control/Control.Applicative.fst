@@ -8,9 +8,9 @@ class applyTC f = {
   applyTC_has_functor: functor f;
 }
 
-let (<*>) #f [| functor: applyTC f |] = functor.apply
+unfold let (<*>) #f [| functor: applyTC f |] = functor.apply
 
-let lift2 #f #a #b #c [| applyTC: applyTC f |] (g: a -> b -> c) (u: f a) (v: f b)
+unfold let lift2 #f #a #b #c [| applyTC: applyTC f |] (g: a -> b -> c) (u: f a) (v: f b)
   : f c
   = let (<$>) = applyTC.applyTC_has_functor.fmap in
     let (<*>) = applyTC.apply in

@@ -1,14 +1,25 @@
+/// This module defines a generic function to browse/modify a term
 module MetaTools.BrowseTerm
 
 open FStar.Tactics
 open Control.Monoid
-
 open FStar.Tactics.Typeclasses
 open MetaTools.Util
-
 module L = FStar.List.Tot
 
-
+/// A browsing `browseFun` function `f` is a function that is called
+/// on each and every sub-term `st` of a term `t`:
+///  - `beforeTransform`. `f` is called twice during a term browse: once before transforming the tree, once after. `true` is passed when in the former situation, `false` otherwise. 
+///  - `rebuildToplevel st'` reconstitutes `t` replacing `st` by `st'`
+///  - `boundedVariables` is a list of the bound variables
+///  - `parents` is the path between `st` and `t`
+///  - `isTypeLevel` is a flag switched to `true` whenever `st` is part of a type
+///  - `currentTerm` is the term `st`
+///
+/// `f` shall return three things:
+///  - a term `newTerm`, that replace the current node
+///  - a term transformer `endTermTransform`, a transformation that is applied at the very end of the transformation
+///  - a new state, if `f` wants to accumulate informations from the browse
 unfold let browseFun' s
   = rebuildToplevel: (term -> Tac term)
   -> boundedVariables: list bv
@@ -16,7 +27,7 @@ unfold let browseFun' s
   -> isTypeLevel: bool
   -> currentTerm: term
   -> Tac ((   newTerm: term
-           * endStateTransform: (term -> Tac term)
+           * endTermTransform: (term -> Tac term)
          ) * newState: s)
 unfold let browseFun s
   = beforeTransform: bool
@@ -25,8 +36,12 @@ unfold let browseFun s
 // (beforeTransform: bool)  (rebuildToplevel: (term -> Tac term))  (boundedVariables: list bv)  (parents: list term_view_head)  (currentTerm: term)
 // beforeTransform rebuildToplevel boundedVariables parents currentTerm
 
+/// Due to a bug, one should really use `id_tac` instead of `id`
+/// For instance, consider `f: (_ -> Tac _) -> Tac _`
+/// `f id` will fail when _evaluated_ (it will even segfault if compiled), while `f id_tac` will work very well
 let id_tac (x: 'a): Tac 'a = x 
 
+/// `onlyWhen` forges a `browseFun` our of a `browseFun'`
 let onlyWhen (#s: Type0) [| monoid s |] start (f: browseFun' s)
   : browseFun s
   = fun beforeTransform rebuildToplevel boundedVariables parents isTypeLevel currentTerm -> 
@@ -38,6 +53,7 @@ let readOnly (#s: Type0) [| monoid s |] (f:
     (term -> Tac term) -> list bv -> list term_view_head
   -> term -> Tac s) = onlyWhen true (fun a b c _ d -> (d, id_tac), f a b c d)
 
+/// `browse_term'` shall not be used directly, see `browse_term`
 let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
   (f: browseFun s)
   (getTree: term -> Tac term)
@@ -46,29 +62,17 @@ let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
   (typeLevel: bool)
   (t: term)
   : Tac (term * s) =
-  let getTree tt
-    = let parents = term_head t::parents' in
-      let tt' = getTree tt in
-      // dump ( "### Child term ###\n"
-      //      ^ term_to_string tt
-      //      ^ "\n\n### Toplevel term ###\n"
-      //      ^ term_to_string tt'
-      //      ^ "\n\n### At level ###\n"
-      //      ^ String.concat " " (L.map term_head_to_string parents)
-      //      );
-      tt'
-  in
   let returns x = pack x, mempty #s #sMonoid in 
   let bind #a #b = bindM #s #sMonoid #a #b in
   bundle <-- f true getTree variables parents' typeLevel t;
   let t, final_term_transform0 = bundle in
   let parents = term_head t::parents' in
+  // the next definitions are just there to provide shortcuts
   let browse_bv (gt: bv -> term_view) vars flag bv = browse_bv #s #sMonoid f (let f v: Tac _ = getTree (pack (gt v)) in f) vars parents flag bv in
   let browse_term'' (gt: _ -> Tac _) vars = browse_term'  #s #sMonoid f (let f t: Tac _ = getTree (pack (gt t)) in f) vars parents' in
-  // let browse_term_dbg vars = browse_term' #s #sMonoid f (let f _: Tac _ = getTree t in f) vars parents' in
   let browse_term' (gt: term -> Tot term_view) vars = browse_term' #s #sMonoid f (let f t: Tac _ = getTree (pack (gt t)) in f) vars parents' in
   let browse_binder gt  vars flag b = browse_binder #s #sMonoid f (let f t: Tac _ = getTree (pack (gt b)) in f) vars parents flag b in
-  let browse_comp (gt: comp -> term_view) variables c // Tv_Arrow b
+  let browse_comp (gt: comp -> term_view) variables c
     : Tac (comp * s)
     = match inspect_comp c with
     | C_Total ret decr -> 
@@ -76,11 +80,12 @@ let rec browse_term' (#s: Type0) [| sMonoid: monoid s |]
       ret <-- browse_term'' (fun ret -> mk ret decr) variables true ret;
       decr <-- optmapS (browse_term' (fun decr -> mk ret (Some decr)) variables true) decr;
       pack_comp (C_Total ret decr), mempty #s #sMonoid
-    | C_Lemma pre post ->
-      let mk pre post = gt (pack_comp (C_Lemma pre post)) in
-      pre <-- browse_term'' (fun pre -> mk pre post) variables true pre;
-      post <-- browse_term'' (fun post -> mk pre post) variables true post;
-      pack_comp (C_Lemma pre post), mempty #s #sMonoid
+    | C_Lemma pre post pats ->
+      let mk pre post pats = gt (pack_comp (C_Lemma pre post pats)) in
+      pre <-- browse_term'' (fun pre -> mk pre post pats) variables true pre;
+      post <-- browse_term'' (fun post -> mk pre post pats) variables true post;
+      pats <-- browse_term'' (fun pats -> mk pre post pats) variables true pats;
+      pack_comp (C_Lemma pre post pats), mempty #s #sMonoid
     | _ -> c, mempty #s #sMonoid
   in
   t <-- begin match inspect t with

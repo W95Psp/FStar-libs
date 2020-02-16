@@ -158,7 +158,7 @@ unfold let focusFst ((a,b),c) = a,c
 
 // let dummy_range = range_of "DUMMY_RANGE"
 
-// let sg_let'_to_Sg_Let
+// let sg_let'_to_Sg_LetMN
 //   (sglet: sg_Let')
 //   = let r, (fv, (us, (typ, def))) = sglet in
 //     Sg_Let r fv (L.map (fun x -> dummy_range, x) us) typ def
@@ -172,3 +172,34 @@ let rec prefixOf (#a:eqtype) (prefix l: list a) =
   | _ -> false
 let prefixOfStr prefix str = prefixOf (String.list_of_string prefix) (String.list_of_string str)
 
+
+let mkMagic typ: Tac term
+  = mk_app (`magic) [typ, Q_Implicit; `(), Q_Explicit]  
+
+let rec mk_lemma_arr (bs: list binder {Cons? bs}) (pre post pats: term) : Tot term (decreases bs) =
+    match bs with
+    | (b::bs) -> pack_ln (Tv_Arrow b (pack_comp (
+      match bs with
+      | []  -> C_Lemma pre post pats
+      | _ -> C_Total (mk_lemma_arr bs pre post pats) None
+    )))
+
+let rec mapFilterTac (f: 'a -> Tac (option 'b)) (l: list 'a): Tac (list 'b)
+  = match l with
+    | [] -> []
+    | hd::tl ->
+      begin
+        match f hd with
+        | Some v -> v::mapFilterTac f tl
+        |      _ ->   mapFilterTac f tl
+      end
+
+let rec mapFilter (f: 'a -> option 'b) (l: list 'a): list 'b
+  = match l with
+    | [] -> []
+    | hd::tl ->
+      begin
+        match f hd with
+        | Some v -> v::mapFilter f tl
+        |      _ ->   mapFilter f tl
+      end        

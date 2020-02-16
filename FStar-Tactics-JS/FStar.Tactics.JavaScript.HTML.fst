@@ -47,6 +47,12 @@ let rec printElement e
     )
   | HtmlRaw t -> t
 
+// let onfinished (enterMessage escapeMessage: unit -> JS unit) = EventAttribute "onfinished" (fun _ -> f ())
+
+let onblur (f: unit -> JS unit) = EventAttribute "onblur" (fun _ -> f ())
+
+let ondblclick (f: unit -> JS unit) = EventAttribute "ondblclick" (fun _ -> f ())
+
 let onclick (f: unit -> JS unit) = EventAttribute "onclick" (fun _ -> f ())
 let oninput (f: string -> JS unit) = EventAttribute "oninput" (fun e -> f (
     unsafe_pure_jsVal_cast ((e @. "srcElement") @. "value")

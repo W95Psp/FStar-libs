@@ -8,26 +8,26 @@ class monoid a = {
   semigroup_of_monoid: semigroup a;
 }
 
-let mkMonoid a [| semigroup a |] (mempty: a): monoid a =
+unfold let mkMonoid a [| semigroup a |] (mempty: a): monoid a =
   { mempty = mempty
   ; semigroup_of_monoid = solve
   }
 
-let mappend #a [| monoid a |]: a -> a -> a
+unfold let mappend #a [| monoid a |]: a -> a -> a
   = semigroup_of_monoid.sappend
 
-let (<+>) #t [| monoid t |] = mappend #t
-let mconcat #t [| monoid t |] = List.Tot.fold_left #t mappend mempty
-let mtimes #t [| monoid t |] (n: nat) (item: t)
+unfold let (<+>) #t [| monoid t |] = mappend #t
+unfold let mconcat #t [| monoid t |] = List.Tot.fold_left #t mappend mempty
+unfold let mtimes #t [| monoid t |] (n: nat) (item: t)
   : t
   = if n = 0
     then mempty
     else stimes #_ #semigroup_of_monoid n item
 
-instance listIsMonoid #a : monoid (list a) = 
-  mkMonoid _ []
-instance unitIsMonoid : monoid unit = 
-  mkMonoid _ ()
+unfold instance listIsMonoid #a : monoid (list a) = 
+  mkMonoid _ #listSemigroup []
+unfold instance unitIsMonoid : monoid unit = 
+  mkMonoid _ #unitSemigroup ()
 
-instance optionIsMonoid #a [| semigroup a |] : monoid (option a) 
+unfold instance optionIsMonoid #a [| semigroup a |] : monoid (option a) 
   = mkMonoid _ #optionSemigroup None

@@ -4,53 +4,36 @@ open FStar.Tactics.Typeclasses
 open FStar.Tactics
 open MetaTools.Util
 open MetaTools.BrowseTerm
-open MetaTools.Erase
-
-
+open MetaTools.PatchTerm
+open MetaTools.Env
 module L = FStar.List.Tot
 
-// open Data.Serialize
-// copy paste from pervasives
-// noeq type fake_norm_step =
-//   | Simpl | Weak | HNF | Primops | Delta
-//   | Zeta | Iota | NBE | Reify
-//   | UnfoldOnly  : list string -> fake_norm_step
-//   | UnfoldFully : list string -> fake_norm_step
-//   | UnfoldAttr  : list string -> fake_norm_step
-
-// let unfake_norm_step: fake_norm_step -> norm_step
-//   = function
-//   | Simpl -> simplify | Primops -> primops
-//   | Weak -> weak      | HNF -> hnf
-//   | Delta -> delta    | Zeta -> zeta
-//   | Iota -> iota      | NBE -> nbe
-//   | Reify -> reify_
-//   | UnfoldOnly  l -> delta_only l
-//   | UnfoldFully l -> delta_fully l
-//   | UnfoldAttr  l -> delta_attr l
-
-// %splice[] (generateSerialize (`fake_norm_step))
-
-// let normalize_inside_matches' (steps: list fake_norm_step) (t: term): Tac term
-//   = let steps = L.map unfake_norm_step steps in
-//     let norm = norm_term steps in
-//     let f before getTree vars parents t
-//         : Tac _
-//         = match before, parents with
-//          | false, Th_Match::_ -> 
-//             let abs = norm (mk_abs (L.map (fun bv -> pack_binder bv Q_Explicit) vars) t) in
-//             mk_e_app abs (map bv_to_term vars), ()
-//          | _ -> t, ()
-//     in fst (browse_term #unit f t)
-
-// %splice[normalize_inside_matches] (mk_native_version (`normalize_inside_matches') "normalize_inside_matches" [true] false)
-
-
+[@plugin]
+let patch_term_and_defs (blacklist: list (bool * name)) (globalArgType: term) (patchFunction: term) (def: term)
+ : Tac (list ((n: name {Cons? n}) * option (term * term)))
+  = patch_term_and_defs blacklist globalArgType patchFunction def
 
 [@plugin]
-let erase_term_and_defs (def: term)
- : Tac (list ((n: name {Cons? n}) * option (term * term)))
- = erase_term_and_defs def
+let make_absorbant_axioms
+  (n: name)
+  mkPlaceholder
+  : Tac (list ((fv * term) * term))
+  = make_absorbant_axioms n mkPlaceholder
 
+[@plugin]
+let is_name_not_inspectable (n: name): Tac bool
+  = is_name_not_inspectable n
 
+[@plugin]
+let make_all_absorbant_axioms
+  mkPlaceholder
+  : Tac (list ((fv * term) * term))
+  = make_all_absorbant_axioms mkPlaceholder
 
+[@plugin]
+let selectOnOf (n: nat {n <> 0}) (l: list 'a): list 'a
+  = mapFilter #(nat*_) (fun (i, v) -> 
+      if i % n = 0
+      then Some v
+      else None
+    ) (withIndexes l)

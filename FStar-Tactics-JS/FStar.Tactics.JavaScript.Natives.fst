@@ -255,6 +255,8 @@ let defaultConfig: jsConfig =
     `%FStar.String.string_of_list, "l => l.join('')";
     `%FStar.Char.char, "x => x";
     `%strcat, "x => y => x + y";
+    `%FStar.String.concat, "x => y => x + y";
+    `%string_of_bool, "x => String(x)";
     "UnitType", "undefined";
     `%constructorOf, "f => (...args) => new f(...args)";
     `%jsInfinity, "Infinity";
@@ -271,6 +273,9 @@ let defaultConfig: jsConfig =
     `%admit, "() => null";
 
     `%eval, "code => eval(code)";
+    
+    `%nat, "Number";
+    `%op_Negation, "x => !x";
     
     `%emptyObject, "() => ({})";
     

@@ -1,0 +1,35 @@
+warning: dumping very large path (> 256 MiB); this may run out of memory
+these derivations will be built:
+  /nix/store/hdxy80mmqam9hnrqaxq6wgmqyfxniklf-fstar-lib-Data-Serialize.drv
+cannot build on 'ssh://hiba': cannot connect to 'hiba': Host key verification failed.
+building '/nix/store/hdxy80mmqam9hnrqaxq6wgmqyfxniklf-fstar-lib-Data-Serialize.drv'...
+unpacking sources
+unpacking source archive /nix/store/s6x4m1xwbbhimim98wbf043i86msikmr-Serialize
+source root is Serialize
+patching sources
+configuring
+no configure script, doing nothing
+building
+## OCaml setup, then folder setup
+## Extract every modules as OCaml
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/bin/fstar.exe --codegen OCaml --odir out/ocaml --extract Data.Serialize.Decode --extract Data.Serialize.Encode --extract Data.Serialize --extract Data.Serialize.Helpers --extract Data.Serialize.Helpers.Serialized --extract Data.Serialize.Helpers.Test --extract Data.Serialize.Rep --extract Data.Serialize.MakeNative --extract Data.Serialize.Typeclasses --extract Data.Serialize.Types Data.Serialize.Decode.fst Data.Serialize.Encode.fst Data.Serialize.fst Data.Serialize.Helpers.fst Data.Serialize.Helpers.Serialized.fst Data.Serialize.Helpers.Test.fst Data.Serialize.Rep.fst Data.Serialize.MakeNative.fst Data.Serialize.Typeclasses.fst Data.Serialize.Types.fst
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/prims.fst(0,0-0,0): (Warning 241) Unable to load /nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/prims.fst.checked since checked file /nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/prims.fst.checked does not exist; will recheck /nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/prims.fst (suppressing this warning for further modules)
+(Warning 282) Expected Z3 version "Z3 version 4.8.5", got ""
+Please download the version of Z3 corresponding to your platform from:
+https://github.com/FStarLang/binaries/tree/master/z3-tested
+and add the bin/ subdirectory into your PATH
+
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.List.Tot.Properties.fst(1010,2-1010,136): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.eq2 Prims.eq2
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.Seq.Properties.fst(939,2-939,49): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.op_Addition 1
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.Seq.Properties.fst(958,2-958,33): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  0
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(632,8-632,66): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.eq2 Prims.op_Modulus 0
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(633,8-633,23): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.eq2 Prims.op_Modulus 0 (see also /nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(632,8-632,66))
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(651,8-651,61): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.op_LessThan
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(652,8-652,22): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.op_LessThan (see also /nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(651,8-651,61))
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(671,8-671,51): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.op_Subtraction 1
+/nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(672,8-672,25): (Warning 271) Pattern uses these theory symbols or terms that should not be in an smt pattern:  Prims.op_Subtraction 1 (see also /nix/store/pwh4c0rf5hg43dhc796z15gjk6dxrx6c-home-lucas-fstar/ulib/FStar.UInt.fst(671,8-671,51))
+Unexpected error; please file a bug report, ideally with a minimized version of the source program that triggered the error.
+Sys_error("Broken pipe")
+
+builder for '/nix/store/hdxy80mmqam9hnrqaxq6wgmqyfxniklf-fstar-lib-Data-Serialize.drv' failed with exit code 1
+error: build of '/nix/store/hdxy80mmqam9hnrqaxq6wgmqyfxniklf-fstar-lib-Data-Serialize.drv' failed

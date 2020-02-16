@@ -12,6 +12,47 @@ let rec last (l: list 'a {Cons? l}): 'a =
   | [hd] -> hd
   | hd::tl -> last tl
 
+let rec is_prefix (#a: eqtype) (prefix l: list a)
+  = match prefix, l with
+  | hdP::tlP, hdL::tlL -> hdP = hdL && is_prefix tlP tlL
+  | [], _ -> true
+  | _, [] -> false
+
+let rec drop (l: list 'a) (n: nat): list 'a
+  = match n, l with
+  | 0, _ -> l
+  | _, hd::tl -> drop tl (n-1)
+  | _, [] -> []
+
+let rec list_replace (#a: eqtype) (l: list a) (sl: (l: list a {L.length l > 0})) (sl': list a)
+  : list a
+  = if is_prefix l sl
+    then drop l (L.length sl)
+    else ( match l with
+         | [] -> []
+         | hd::tl -> hd::(list_replace tl sl sl')
+         )
+
+let str_replace s (ss: _ {String.length ss > 0}) ss': string
+  = let s  = S.list_of_string s   in
+    let ss = S.list_of_string ss  in
+    let ss'= S.list_of_string ss' in
+    S.string_of_list (list_replace s ss ss')
+
+let list_replace_item (#a: eqtype) (l: list a) i i'
+  = L.map (fun x -> if x = i then i' else x) l
+
+let replaceChar (str: string) (ch ch': _): string =
+  S.string_of_list (list_replace_item (S.list_of_string str) ch ch')
+
+let makeJsName s =
+  let s = str_replace s "_" "__" in // so that a odd number of _ is impossible unless `s` matches one of the following rules 
+  let s = str_replace s "this" "this_" in
+  let s = str_replace s "'" "_" in
+  // let s = replaceChar s '\'' '_' in
+  s
+
+
 let isUppercase s = String.uppercase s = s
 let isCharUppercase c = isUppercase (S.string_of_list [c])
 let isFirstCharUppercase s =
