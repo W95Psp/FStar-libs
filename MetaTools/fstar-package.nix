@@ -1,8 +1,6 @@
-let
-  pkgs = import <nixpkgs> {};
-in
+{nixpkgs ? import <nixpkgs> {}}: 
 { name = "MetaTools";
-  force-fstar-version = pkgs.fstar-clemma-reflection-smtpat;
+  force-fstar-version = nixpkgs.fstar-clemma-reflection-smtpat;
   sources-directory = ./.;
   sources = [
     "MetaTools.BrowseTerm"

@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "Debug.Trace";
     sources-directory = ./.;
     sources = [

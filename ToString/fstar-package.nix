@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "ToString";
     sources-directory = ./.;
     sources = [

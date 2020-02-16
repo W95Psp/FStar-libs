@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "Data.Serialize";
     sources-directory = ./.;
     sources = [

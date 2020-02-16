@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "Data.Map.Enumerable.NonOrdered";
     sources-directory = ./.;
     sources = [

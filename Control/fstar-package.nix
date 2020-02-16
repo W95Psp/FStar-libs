@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "Control";
     sources-directory = ./.;
     sources = [

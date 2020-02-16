@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}: 
   { name = "DefaultValue";
     sources-directory = ./.;
     sources = [

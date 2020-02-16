@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
 { name = "NormTools";
   sources-directory = ./.;
   sources = [

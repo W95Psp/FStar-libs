@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "FStar-Tactics-JS";
     sources-directory = ./.;
     sources = [

@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "Data.Set.Computable.NonOrdered";
     sources-directory = ./.;
     sources = [

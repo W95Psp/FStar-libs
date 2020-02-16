@@ -1,3 +1,4 @@
+{nixpkgs ? import <nixpkgs> {}}:
   { name = "MkDoc.Test";
     sources-directory = ./.;
     sources = [
