@@ -27,7 +27,7 @@ let patch_term_helper
       Typeclasses.mk_abs [patchVarParamBinder] (rebuildToplevel (do_patch t))
     in
     t, ( if typechecks toplevel_patched
-         then do_patch else id_tac    )
+         then (dump ("DID PATCHED :" ^ term_to_string t ^ "\n\n\n" ^ term_to_string toplevel_patched); do_patch) else id_tac    )
 
 let patch_term (patchFunction: term) (patchVarParamBinder: binder) (t: term): Tac term = 
   fst
@@ -142,7 +142,11 @@ let patch_term_and_defs (blacklist: list (bool * name)) (globalArgType: term) (p
       let patch (t: term): Tac term = replace_fv t replacements in
       match U.sglet_of_name toplevel_name with
       | Some (typ, def) ->
-         Some (
+        (* BEGIN FORCE TYPE *)
+        let inner_bv = fresh_bv typ in
+        let def = pack (Tv_Let false [] inner_bv def (bv_to_term inner_bv)) in
+        // END FORCE TYPE *)
+        Some (
           mk_tot_arr [b_lvar] (patch ( patch_term patchFunction b_lvar typ ))
         , pack (Tv_Abs b_lvar (patch ( patch_term patchFunction b_lvar def )))
         )

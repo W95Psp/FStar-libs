@@ -49,3 +49,4 @@ let makeGenericRep (name: fv): Tac inductiveSumup =
          let iCons = map (makeGenericRep'Cons iVars) constructors in
          {iCons = iCons; iName = name; iVars = iVars}
   | _ -> fail (fv_to_string name ^ " is not an inductive")
+

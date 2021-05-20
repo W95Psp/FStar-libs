@@ -3,17 +3,24 @@ module MetaTools.Util
 open FStar.Tactics
 module L = FStar.List.Tot
 
-let replaceAt (l: list 'a) (pos: nat) (v: 'a): list 'a
-  = let rec h l (i: nat) = match l with
-    | [] -> []
-    | hd::tl -> (if i = pos then v else hd)::h tl (i+1)
-    in h l 0
 
-let withIndexes (l: list 'a): list (nat * 'a)
-  = let rec h l (i: nat) = match l with
+
+let rec replaceAt_helper #a (pos: nat) (v: a) (i: nat) (l: list a):
+  Tot
+  (list a)
+  (decreases l)
+  = match l with
     | [] -> []
-    | hd::tl -> (i, hd)::h tl (i+1)
-    in h l 0
+    | hd::tl -> (if i = pos then v else hd)::replaceAt_helper pos v (i+1) tl
+let replaceAt #a (l: list a) (pos: nat) (v: a): list a
+  = replaceAt_helper pos v 0 l
+
+let rec withIndexes_helper (l: list 'a) (i: nat): list (nat * 'a)
+  = match l with
+    | [] -> []
+    | hd::tl -> (i, hd)::withIndexes_helper tl (i+1)
+let withIndexes (l: list 'a): list (nat * 'a)
+  = withIndexes_helper l 0
 
 let rec bvs_of_pattern (p: pattern): list bv =
   match p with
